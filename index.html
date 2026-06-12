@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>速見ニュース | HAYAMI NEWS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #111; color: #222; }
+        header { background: #0d0d0d; padding: 16px 20px; }
+        .header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .logo { color: #fff; font-size: 1.6rem; font-weight: 900; letter-spacing: 4px; }
+        .logo span { color: #ff3b5c; }
+        .logo-sub { color: #555; font-size: 0.7rem; margin-top: 3px; letter-spacing: 2px; }
+        .update-time { color: #555; font-size: 0.72rem; }
+        nav { background: #1a1a1a; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2a2a2a; }
+        .nav-inner { max-width: 1000px; margin: 0 auto; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .nav-inner::-webkit-scrollbar { display: none; }
+        nav a { color: #888; font-size: 0.82rem; padding: 12px 18px; white-space: nowrap; text-decoration: none; border-bottom: 2px solid transparent; }
+        nav a:hover { color: #ff3b5c; border-bottom-color: #ff3b5c; }
+        main { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
+        section { margin-bottom: 32px; }
+        .section-title { font-size: 1rem; font-weight: bold; color: #ddd; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .section-title::before { content: ''; display: block; width: 4px; height: 20px; background: #ff3b5c; border-radius: 2px; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media(min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media(min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+        /* ★カード */
+        .card { background: #1e1e1e; border-radius: 10px; overflow: hidden; border: 1px solid #444; border-top: 2px solid #ff3b5c; transition: transform 0.15s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+
+        /* ★OGP画像 */
+        .card-img { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #2a2a2a; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .card h3 { font-size: 0.92rem; color: #f0f0f0; margin: 12px 16px 8px; line-height: 1.55; }
+        .card h3 a { color: #f0f0f0; text-decoration: none; }
+        .card h3 a:hover { color: #ff3b5c; }
+
+        /* ★タップ展開 */
+        .card-summary-wrap { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 16px; }
+        .card-summary-wrap.open { max-height: 200px; padding: 0 16px 10px; }
+        .card-summary { font-size: 0.82rem; color: #bbb; line-height: 1.8; }
+
+        .card-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 14px; margin-top: auto; }
+        .tag { display: inline-block; background: #ff3b5c22; color: #ff3b5c; font-size: 0.68rem; padding: 3px 9px; border-radius: 4px; border: 1px solid #ff3b5c44; }
+        .expand-btn { background: none; border: none; color: #888; font-size: 0.72rem; cursor: pointer; padding: 0; }
+        .expand-btn:hover { color: #ff3b5c; }
+
+        /* 天気 */
+        .weather-card { background: #1e1e1e; border-radius: 12px; padding: 20px; border: 1px solid #444; border-top: 2px solid #4fc3f7; }
+        .area-toggle-btn { background: #2a2a2a; color: #4fc3f7; border: 1px solid #4fc3f744; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-bottom: 12px; }
+        .area-selector { display: none; background: #2a2a2a; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+        .area-selector.open { display: block; }
+        .region-group { margin-bottom: 10px; }
+        .region-name { color: #888; font-size: 0.72rem; margin-bottom: 6px; }
+        .pref-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .pref-btn { background: #333; color: #ccc; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+        .pref-btn:hover { background: #4fc3f7; color: #111; border-color: #4fc3f7; }
+        .weather-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+        .weather-main { display: flex; align-items: center; gap: 16px; flex: 1; }
+        .weather-icon-big { font-size: 3.5rem; line-height: 1; }
+        .weather-area { color: #888; font-size: 0.75rem; margin-bottom: 4px; }
+        .weather-today { color: #f0f0f0; font-size: 0.95rem; font-weight: bold; margin-bottom: 6px; }
+        .weather-temp { color: #bbb; font-size: 0.82rem; }
+        .temp-max { color: #ff6b6b; font-weight: bold; }
+        .temp-min { color: #4fc3f7; font-weight: bold; }
+        .weather-tomorrow { text-align: center; background: #2a2a2a; border-radius: 8px; padding: 10px 14px; }
+        .tomorrow-label { color: #888; font-size: 0.7rem; margin-bottom: 4px; }
+        .tomorrow-icon { font-size: 1.8rem; margin-bottom: 4px; }
+        .tomorrow-text { color: #ccc; font-size: 0.72rem; }
+        .weather-toggle { color: #4fc3f7; font-size: 0.78rem; cursor: pointer; margin-top: 14px; padding-top: 14px; border-top: 1px solid #2a2a2a; }
+        .hourly-wrap { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .hourly-wrap.open { max-height: 100px; }
+        .hourly-list { display: flex; gap: 8px; padding-top: 12px; overflow-x: auto; }
+        .hourly-item { text-align: center; background: #2a2a2a; border-radius: 8px; padding: 8px 12px; min-width: 56px; }
+        .hourly-time { color: #888; font-size: 0.68rem; margin-bottom: 4px; }
+        .hourly-icon { font-size: 1.4rem; }
+        .loading { color: #888; font-size: 0.82rem; text-align: center; padding: 20px; }
+        footer { background: #0d0d0d; color: #444; text-align: center; padding: 24px 20px; font-size: 0.8rem; margin-top: 20px; }
+        footer span { color: #ff3b5c; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div>
+                <div class="logo">HAYAMI<span> NEWS</span></div>
+                <div class="logo-sub">速見ニュース — 今日を5分で知る</div>
+            </div>
+            <div class="update-time">更新 2026年06月13日 07:19</div>
+        </div>
+    </header>
+    <nav><div class="nav-inner"><a href="#天気">🌤️ 天気</a><a href="#ニュース">ニュース</a><a href="#テクノロジー">テクノロジー</a><a href="#スポーツ">スポーツ</a><a href="#エンタメ">エンタメ</a><a href="#ゲーム">ゲーム</a><a href="#アニメ">アニメ</a><a href="#経済">経済</a><a href="#国際">国際</a></div></nav>
+    <main>
+    <section id="天気">
+        <div class="section-title">今日の天気</div>
+        
+    <div class="weather-card" id="weatherCard">
+        <div class="weather-area-selector">
+            <button class="area-toggle-btn" onclick="toggleAreaSelector()">🗾 地域を変更 ▼</button>
+            <div class="area-selector" id="areaSelector">
+                <div class="region-group"><div class="region-name">北海道・東北</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('016000','北海道')">北海道</button><button class="pref-btn" onclick="changeArea('020000','青森')">青森</button><button class="pref-btn" onclick="changeArea('030000','岩手')">岩手</button><button class="pref-btn" onclick="changeArea('040000','宮城')">宮城</button><button class="pref-btn" onclick="changeArea('050000','秋田')">秋田</button><button class="pref-btn" onclick="changeArea('060000','山形')">山形</button><button class="pref-btn" onclick="changeArea('070000','福島')">福島</button></div></div><div class="region-group"><div class="region-name">関東</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('080000','茨城')">茨城</button><button class="pref-btn" onclick="changeArea('090000','栃木')">栃木</button><button class="pref-btn" onclick="changeArea('100000','群馬')">群馬</button><button class="pref-btn" onclick="changeArea('110000','埼玉')">埼玉</button><button class="pref-btn" onclick="changeArea('120000','千葉')">千葉</button><button class="pref-btn" onclick="changeArea('130000','東京')">東京</button><button class="pref-btn" onclick="changeArea('140000','神奈川')">神奈川</button></div></div><div class="region-group"><div class="region-name">中部</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('150000','新潟')">新潟</button><button class="pref-btn" onclick="changeArea('160000','富山')">富山</button><button class="pref-btn" onclick="changeArea('170000','石川')">石川</button><button class="pref-btn" onclick="changeArea('180000','福井')">福井</button><button class="pref-btn" onclick="changeArea('190000','山梨')">山梨</button><button class="pref-btn" onclick="changeArea('200000','長野')">長野</button><button class="pref-btn" onclick="changeArea('210000','岐阜')">岐阜</button><button class="pref-btn" onclick="changeArea('220000','静岡')">静岡</button><button class="pref-btn" onclick="changeArea('230000','愛知')">愛知</button></div></div><div class="region-group"><div class="region-name">近畿</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('240000','三重')">三重</button><button class="pref-btn" onclick="changeArea('250000','滋賀')">滋賀</button><button class="pref-btn" onclick="changeArea('260000','京都')">京都</button><button class="pref-btn" onclick="changeArea('270000','大阪')">大阪</button><button class="pref-btn" onclick="changeArea('280000','兵庫')">兵庫</button><button class="pref-btn" onclick="changeArea('290000','奈良')">奈良</button><button class="pref-btn" onclick="changeArea('300000','和歌山')">和歌山</button></div></div><div class="region-group"><div class="region-name">中国・四国</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('310000','鳥取')">鳥取</button><button class="pref-btn" onclick="changeArea('320000','島根')">島根</button><button class="pref-btn" onclick="changeArea('330000','岡山')">岡山</button><button class="pref-btn" onclick="changeArea('340000','広島')">広島</button><button class="pref-btn" onclick="changeArea('350000','山口')">山口</button><button class="pref-btn" onclick="changeArea('360000','徳島')">徳島</button><button class="pref-btn" onclick="changeArea('370000','香川')">香川</button><button class="pref-btn" onclick="changeArea('380000','愛媛')">愛媛</button><button class="pref-btn" onclick="changeArea('390000','高知')">高知</button></div></div><div class="region-group"><div class="region-name">九州・沖縄</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('400000','福岡')">福岡</button><button class="pref-btn" onclick="changeArea('410000','佐賀')">佐賀</button><button class="pref-btn" onclick="changeArea('420000','長崎')">長崎</button><button class="pref-btn" onclick="changeArea('430000','熊本')">熊本</button><button class="pref-btn" onclick="changeArea('440000','大分')">大分</button><button class="pref-btn" onclick="changeArea('450000','宮崎')">宮崎</button><button class="pref-btn" onclick="changeArea('460100','鹿児島')">鹿児島</button><button class="pref-btn" onclick="changeArea('471000','沖縄')">沖縄</button></div></div>
+            </div>
+        </div>
+        <div id="weatherContent">
+            <div class="weather-top">
+                <div class="weather-main">
+                    <div class="weather-icon-big">☀️</div>
+                    <div class="weather-info">
+                        <div class="weather-area">東京地方の天気</div>
+                        <div class="weather-today">晴れ　夕方　から　くもり　所により　昼過ぎ　から　雨　で　雷を伴う</div>
+                        <div class="weather-temp">🌡️ 最高 <span class="temp-max">28℃</span> / 最低 <span class="temp-min">20℃</span></div>
+                    </div>
+                </div>
+                <div class="weather-tomorrow">
+                    <div class="tomorrow-label">明日</div>
+                    <div class="tomorrow-icon">☀️</div>
+                    <div class="tomorrow-text">くもり　昼前　か</div>
+                </div>
+            </div>
+            <div class="weather-toggle" onclick="toggleHourly()">時間帯別を見る ▼</div>
+            <div class="hourly-wrap" id="hourlyWrap">
+                <div class="hourly-list"><div class="hourly-item"><div class="hourly-time">14時</div><div class="hourly-icon">☀️</div></div><div class="hourly-item"><div class="hourly-time">9時</div><div class="hourly-icon">☀️</div></div></div>
+            </div>
+        </div>
+    </div>
+    </section>
+        <section id="ニュース">
+            <div class="section-title">ニュース</div>
+            <div class="grid">
+            <div class="card" id="card_ニュース_0">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148801000.html" target="_blank" rel="noopener">トランプ大統領 イランと覚書署名 週末か15日にも 米メディア</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">アメリカのトランプ大統領とイランが、けんかを終わらせるための約束の紙に署名するかもしれないというニュースです。アメリカのテレビ局は、この週末か15日にも署名されるかもしれないと言っています。イランも「ほぼ決まりかけている」と言っていますが、まだ最後の判断がされていないので、これからどうなるかに注目が集まっています。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ニュース</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ニュース_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_ニュース_1">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148781000.html" target="_blank" rel="noopener">高市首相 重要鉱物「共同備蓄連携構想」提案へ G7サミット</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">日本の総理大臣が、来週フランスで開かれる大切な国際会議で、レアアースなどの貴重な鉱物を各国が一緒に貯めておく仕組みを作ることを提案します。これは、世界中の国々が協力して、大事な資源を守ろうという考え方です。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ニュース</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ニュース_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_ニュース_2">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148891000.html" target="_blank" rel="noopener">「スペースX」が上場 調達資金 約12兆円は過去最大規模</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">ロケットを作っている有名な会社「スペースX」が、株を売ることでお金を集めました。集めたお金は日本円で約12兆円で、これは今までで一番多い金額です。このお金を使って、スペースXはもっと宇宙開発やAIの研究を進めることができます。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ニュース</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ニュース_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="テクノロジー">
+            <div class="section-title">テクノロジー</div>
+            <div class="grid">
+            <div class="card" id="card_テクノロジー_0">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148891000.html" target="_blank" rel="noopener">「スペースX」が上場 調達資金 約12兆円は過去最大規模</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">ロケットや宇宙のことをやっている「スペースX」という会社が、株を売ることで約12兆円ものお金を集めました。これは今までで一番大きな金額です。このお金を使って、スペースXはもっと宇宙の研究や新しい技術を進めることができるようになります。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">テクノロジー</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_テクノロジー_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_テクノロジー_1">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148851000.html" target="_blank" rel="noopener">ウリ信用組合に一部業務停止命令 顧客の預金着服などで 金融庁</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">札幌市のウリ信用組合という銀行で、昔の偉い人がお客さんのお金を勝手に持ってしまったのに、会社の上の人たちがこっそり隠していました。金融庁という国の機関がこれを見つけて、この銀行に対して新しいお客さんへのお金の貸し付けを一時的に止めるように命令しました。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">テクノロジー</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_テクノロジー_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_テクノロジー_2">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148741000.html" target="_blank" rel="noopener">大手航空2社 燃油サーチャージ再度引き上げ 燃料価格高騰で</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">飛行機を使うときの値段に上乗せされる燃料代が、また高くなることになりました。これは、飛行機の燃料の値段が高くなり続けているからです。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">テクノロジー</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_テクノロジー_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="スポーツ">
+            <div class="section-title">スポーツ</div>
+            <div class="grid">
+            <div class="card" id="card_スポーツ_0">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148941000.html" target="_blank" rel="noopener">サッカーW杯 カナダ 対 ボスニア・ヘルツェゴビナは引き分け</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">サッカーワールドカップでカナダとボスニア・ヘルツェゴビナが試合をして、1対1で引き分けました。ボスニア・ヘルツェゴビナが最初に1点入れましたが、カナダが後から同じく1点入れて同点になりました。カナダは勝つことはできませんでしたが、ワールドカップで初めて勝ち点をもらうことができました。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">スポーツ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_スポーツ_1">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148971000.html" target="_blank" rel="noopener">大リーグ ドジャース 大谷翔平 ホワイトソックス戦 先発外れる</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">大谷翔平選手は左ひざの炎症のため、12日のホワイトソックス戦の先発を外れました。11日の試合で途中交代していて、監督が試合前に大谷選手の状態を確認してから出場するかどうか決めることにしました。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">スポーツ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_スポーツ_2">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148961000.html" target="_blank" rel="noopener">サッカーW杯 日本代表 初戦のオランダ想定し非公開で調整</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">サッカーのワールドカップに出場する日本代表が、2日後に試合するオランダ代表に備えて、練習を行いました。この練習は誰にも見られないようにひそかに行われ、コーナーキックなどの特別な場面での対応を確認しました。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">スポーツ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="エンタメ">
+            <div class="section-title">エンタメ</div>
+            <div class="grid">
+            <div class="card" id="card_エンタメ_0">
+                
+                <h3><a href="https://natalie.mu/music/news/675919" target="_blank" rel="noopener">［週間アクセスランキング］打倒モナキ</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">先週、一番たくさんの人が読んだニュースは純烈という男性アイドルグループについての記事で、一番たくさんの人が見た写真は嵐というアイドルグループに関するものでした。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">エンタメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_エンタメ_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_エンタメ_1">
+                
+                <h3><a href="https://natalie.mu/music/news/676005" target="_blank" rel="noopener">Aproofが1stミニアルバム発表、昨年デビューした5人組アイドルグループ</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">Aproofという5人のアイドルグループが、去年デビューしてから初めてのミニアルバムを9月8日に発売します。このアルバムは「未完の旋律」という名前で、rock fieldという音楽会社から出されます。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">エンタメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_エンタメ_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_エンタメ_2">
+                
+                <h3><a href="https://natalie.mu/music/news/676003" target="_blank" rel="noopener">中島健人が新曲「Fiction Love」リリース、ラブリーでかわいいMVには3人のケンティー</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">中島健人が「Fiction Love」という新しい歌を出しました。この歌のミュージックビデオには、かわいくて素敵な3人の中島健人が登場します。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">エンタメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_エンタメ_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="ゲーム">
+            <div class="section-title">ゲーム</div>
+            <div class="grid">
+            <div class="card" id="card_ゲーム_0">
+                <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/20260612-449533-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://automaton-media.com/articles/newsjp/20260612-449533/" target="_blank" rel="noopener">「RPGツクール」開発元、閉鎖告知した旧フォーラムサイトの「アーカイブ化」を模索中。数十年分の“ツクール知識の宝庫”を惜しむ声相次ぎ、保存に乗り出す</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">ゲーム作成ツール「RPGツクール」の公式フォーラムが閉鎖されることになりましたが、その中には何十年分の役に立つ情報がたくさん詰まっているため、開発元の会社がそのデータを保存する方法を考えているところです。ユーザーたちもこの情報を失いたくないと声を上げているので、会社は昔の投稿や知識を後の世代でも見られるような形で残そうとしています。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ゲーム</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ゲーム_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_ゲーム_1">
+                <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/20260612-449521-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://automaton-media.com/articles/newsjp/20260612-449521/" target="_blank" rel="noopener">Steamマルチ“お絵描き擬態”かくれんぼ『めっちゃカメレオン』早くも売上50万本突破。止まらぬグローバル人気、発売からわずか2日で達成</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">『めっちゃカメレオン』というゲームが、発売されてからたった2日で50万本も売れました。このゲームは、カメレオンのように色を変えて隠れる鬼ごっこのようなゲームで、世界中の人たちに大人気になっています。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ゲーム</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ゲーム_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_ゲーム_2">
+                <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/spacecraft-20260612-449486-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://automaton-media.com/articles/newsjp/spacecraft-20260612-449486/" target="_blank" rel="noopener">宇宙探索MMO『SpaceCraft』Steamで人気白熱スタート、MMO要素には賛否ありつつ。広大宇宙、のんびり採掘＆クラフトの旅</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">『SpaceCraft』という宇宙でのんびり採掘やものづくりができるゲームが、Steam（ゲーム販売サイト）で大人気になっています。でも、大勢のプレイヤーと一緒にプレイするMMOというゲーム形式が好きな人と嫌いな人に分かれているようです。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">ゲーム</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_ゲーム_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="アニメ">
+            <div class="section-title">アニメ</div>
+            <div class="grid">
+            <div class="card" id="card_アニメ_0">
+                
+                <h3><a href="https://animeanime.jp/article/2026/06/12/99998.html" target="_blank" rel="noopener">サッカーW杯を楽しむために！ 「ブルーロック」見たら、デスゲーム＆アクション＆少女漫画＆ホラー…全方位でぶっ刺さってどハマり【ワールドカップ連載コラム Vol.2】</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">「ブルーロック」というアニメは、サッカーの試合をテーマにした作品で、ただのスポーツアニメではなく、冒険やアクション、ドキドキする恋愛など、いろいろな要素が詰まっているので、とても面白いということを紹介しています。ワールドカップを見る前にこのアニメを見ると、サッカーがもっと楽しくなるよという内容です。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">アニメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_アニメ_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_アニメ_1">
+                
+                <h3><a href="https://animeanime.jp/article/2026/06/12/99997.html" target="_blank" rel="noopener">ちいかわと一緒にお勉強♪ 「ちいかわ夏休みドリル」シリーズに小学3年生用が登場！これ1冊で1学期の復習はバッチリ☆</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">かわいいキャラクター「ちいかわ」といっしょに勉強できる「ちいかわ夏休みドリル」という本に、小学3年生用の新しい本が出ました。この1冊をやれば、1学期に習ったことをぜんぶ復習できるので、夏休みの勉強がかんたんになります。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">アニメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_アニメ_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_アニメ_2">
+                
+                <h3><a href="https://animeanime.jp/article/2026/06/12/99996.html" target="_blank" rel="noopener">「ガンダム0083 STARDUST MEMORY」「Gガンダム」メカニカル作画監督・佐野浩敏の画集が復刻販売決定！</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">有名なガンダムのアニメを作った佐野浩敏という人が、ロボットの絵をたくさん集めた本を新しく作り直して、また売ることになりました。この本には、昔のガンダムのアニメに出てきたかっこいいロボットの絵がいっぱい入っています。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">アニメ</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_アニメ_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="経済">
+            <div class="section-title">経済</div>
+            <div class="grid">
+            <div class="card" id="card_経済_0">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148131000.html" target="_blank" rel="noopener">H3ロケット打ち上げ成功 6つの小型衛星を軌道に投入 JAXA</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">日本が開発したH3ロケットの6号機が、鹿児島県の種子島から打ち上げられて成功しました。このロケットは6つの小さな衛星を宇宙に送ることができ、去年の失敗から立ち直ることができました。日本の宇宙技術がまた一歩前に進みました。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">経済</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_経済_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_経済_1">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148751000.html" target="_blank" rel="noopener">北陸電力が志賀原発の津波想定を引き上げ 能登半島地震を受け</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">北陸電力は、能登半島地震が起きたことをきっかけに、志賀原子力発電所が備えておく必要がある津波の高さを高くしました。これまでより約5メートル高い、最大12メートルあまりの津波に対応できるようにするということです。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">経済</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_経済_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_経済_2">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148421000.html" target="_blank" rel="noopener">俳優 中村玉緒さん死去 86歳 映画やバラエティー番組で活躍</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">映画やドラマ、テレビ番組でたくさんの人に愛されていた俳優の中村玉緒さんが、肺炎で亡くなりました。86歳でした。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">経済</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_経済_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section>
+        <section id="国際">
+            <div class="section-title">国際</div>
+            <div class="grid">
+            <div class="card" id="card_国際_0">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148801000.html" target="_blank" rel="noopener">トランプ大統領 イランと覚書署名 週末か15日にも 米メディア</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">アメリカのトランプ大統領とイランの国が、けんかをやめるための約束を書いた紙に判を押すかもしれません。それはこの週末か15日頃に行われるという話です。イランも「もう最後の段階まで来ている」と言っていますが、まだ決まったわけではないので、これからどうなるかみんなが注目しています。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">国際</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_国際_0')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_国際_1">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148811000.html" target="_blank" rel="noopener">“ロシア軍の兵士の死者数 22万人以上” BBCなどの調査報道</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">ロシアがウクライナに仕掛けた戦争で、ロシア軍の兵士が22万人以上亡くなっていることがわかりました。実際にはもっと多くて、50万人近くなくなっている可能性もあるとのことです。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">国際</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_国際_1')">要約を見る ▼</button>
+                </div>
+            </div>
+            <div class="card" id="card_国際_2">
+                
+                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148781000.html" target="_blank" rel="noopener">高市首相 重要鉱物「共同備蓄連携構想」提案へ G7サミット</a></h3>
+                <div class="card-summary-wrap">
+                    <p class="card-summary">日本の首相が、レアアースという大切な鉱物を各国で一緒に備蓄して、何かあった時に困らないようにしようという計画をフランスで開かれる大切な国際会議で発表することになりました。これは日本を含めた7つの大きな国が力を合わせて、みんなで助け合おうという取り組みです。</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tag">国際</span>
+                    <button class="expand-btn" onclick="toggleSummary('card_国際_2')">要約を見る ▼</button>
+                </div>
+            </div></div>
+        </section></main>
+    <footer>
+        © 2024 <span>速見ニュース</span> | HAYAMI NEWS<br>
+        <span style="font-size:0.72rem;color:#333;margin-top:6px;display:block;">ニュースの内容はAIが要約しています</span>
+    </footer>
+    <script>
+    // ★タップ展開
+    function toggleSummary(cardId) {
+        const card = document.getElementById(cardId);
+        const wrap = card.querySelector('.card-summary-wrap');
+        const btn = card.querySelector('.expand-btn');
+        const isOpen = wrap.classList.toggle('open');
+        btn.textContent = isOpen ? '閉じる ▲' : '要約を見る ▼';
+    }
+
+    // 天気
+    const WEATHER_ICONS = {"晴":"☀️","快晴":"☀️","曇":"⛅","くもり":"⛅","雨":"🌧️","小雨":"🌦️","雪":"❄️","雷":"⚡"};
+    function getIcon(text) {
+        for(const [k,v] of Object.entries(WEATHER_ICONS)) { if(text.includes(k)) return v; }
+        return "🌤️";
+    }
+    function toggleAreaSelector() {
+        document.getElementById('areaSelector').classList.toggle('open');
+    }
+    function toggleHourly() {
+        const wrap = document.getElementById('hourlyWrap');
+        const btn = document.querySelector('.weather-toggle');
+        wrap.classList.toggle('open');
+        btn.textContent = wrap.classList.contains('open') ? '時間帯別を閉じる ▲' : '時間帯別を見る ▼';
+    }
+    async function changeArea(code, name) {
+        document.getElementById('areaSelector').classList.remove('open');
+        document.getElementById('weatherContent').innerHTML = '<div class="loading">天気情報を取得中...</div>';
+        try {
+            const res = await fetch(`https://www.jma.go.jp/bosai/forecast/data/forecast/${code}.json`);
+            const data = await res.json();
+            const area = data[0].timeSeries[0].areas[0];
+            const weathers = area.weathers || [];
+            const todayW = weathers[0] || "情報なし";
+            const tomorrowW = weathers[1] || "情報なし";
+            let maxTemp = "--", minTemp = "--";
+            try {
+                const tempAreas = data[1].timeSeries[1].areas;
+                for(const a of tempAreas) {
+                    const mx = (a.tempsMax||[]).find(t=>t);
+                    const mn = (a.tempsMin||[]).find(t=>t);
+                    if(mx) maxTemp = mx;
+                    if(mn) minTemp = mn;
+                    break;
+                }
+            } catch(e) {}
+            let hourlyHtml = "";
+            try {
+                const ts = data[0].timeSeries[0];
+                ts.timeDefines.slice(0,6).forEach((t,i) => {
+                    const h = (new Date(t).getHours() + 9) % 24;
+                    const w = (ts.areas[0].weathers||[])[i] || "";
+                    hourlyHtml += `<div class="hourly-item"><div class="hourly-time">${h}時</div><div class="hourly-icon">${getIcon(w)}</div></div>`;
+                });
+            } catch(e) {}
+            document.getElementById('weatherContent').innerHTML = `
+                <div class="weather-top">
+                    <div class="weather-main">
+                        <div class="weather-icon-big">${getIcon(todayW)}</div>
+                        <div class="weather-info">
+                            <div class="weather-area">${name}の天気</div>
+                            <div class="weather-today">${todayW}</div>
+                            <div class="weather-temp">🌡️ 最高 <span class="temp-max">${maxTemp}℃</span> / 最低 <span class="temp-min">${minTemp}℃</span></div>
+                        </div>
+                    </div>
+                    <div class="weather-tomorrow">
+                        <div class="tomorrow-label">明日</div>
+                        <div class="tomorrow-icon">${getIcon(tomorrowW)}</div>
+                        <div class="tomorrow-text">${tomorrowW.slice(0,8)}</div>
+                    </div>
+                </div>
+                <div class="weather-toggle" onclick="toggleHourly()">時間帯別を見る ▼</div>
+                <div class="hourly-wrap" id="hourlyWrap">
+                    <div class="hourly-list">${hourlyHtml}</div>
+                </div>`;
+        } catch(e) {
+            document.getElementById('weatherContent').innerHTML = '<div class="loading">取得に失敗しました</div>';
+        }
+    }
+    </script>
+</body>
+</html>
