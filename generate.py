@@ -11,14 +11,14 @@ load_dotenv()
 anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 RSS_FEEDS = {
-    "ニュース": ["https://feeds.bbci.co.uk/japanese/rss.xml"],
-    "テクノロジー": ["https://techcrunch.com/feed/"],
-    "スポーツ": ["https://sportsnavi.ht.kyodo-d.jp/sports/rss/all.xml"],
-    "エンタメ": ["https://natalie.mu/music/feed/news"],
+    "ニュース": ["https://news.livedoor.com/topics/rss/top.xml"],
+    "テクノロジー": ["https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml"],
+    "スポーツ": ["https://news.livedoor.com/topics/rss/spo.xml"],
+    "エンタメ": ["https://news.livedoor.com/topics/rss/ent.xml"],
     "ゲーム": ["https://automaton-media.com/feed/"],
     "アニメ": ["https://animeanime.jp/rss/index.rdf"],
-    "経済": ["https://feeds.bbci.co.uk/japanese/business/rss.xml"],
-    "国際": ["https://feeds.bbci.co.uk/japanese/world/rss.xml"],
+    "経済": ["https://news.livedoor.com/topics/rss/eco.xml"],
+    "国際": ["https://news.livedoor.com/topics/rss/int.xml"],
 }
 
 AREAS = {
