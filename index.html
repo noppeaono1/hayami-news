@@ -25,30 +25,20 @@
         .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         @media(min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
         @media(min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); } }
-
-        /* ★カード */
         .card { background: #1e1e1e; border-radius: 10px; overflow: hidden; border: 1px solid #444; border-top: 2px solid #ff3b5c; transition: transform 0.15s; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
-
-        /* ★OGP画像 */
         .card-img { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #2a2a2a; }
         .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
         .card h3 { font-size: 0.92rem; color: #f0f0f0; margin: 12px 16px 8px; line-height: 1.55; }
-        .card h3 a { color: #f0f0f0; text-decoration: none; }
-        .card h3 a:hover { color: #ff3b5c; }
-
-        /* ★タップ展開 */
         .card-summary-wrap { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 16px; }
-        .card-summary-wrap.open { max-height: 200px; padding: 0 16px 10px; }
-        .card-summary { font-size: 0.82rem; color: #bbb; line-height: 1.8; }
-
+        .card-summary-wrap.open { max-height: 300px; padding: 0 16px 10px; }
+        .card-summary { font-size: 0.82rem; color: #bbb; line-height: 1.8; margin-bottom: 8px; }
+        .read-more { display: inline-block; color: #ff3b5c; font-size: 0.75rem; text-decoration: none; }
+        .read-more:hover { text-decoration: underline; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 14px; margin-top: auto; }
         .tag { display: inline-block; background: #ff3b5c22; color: #ff3b5c; font-size: 0.68rem; padding: 3px 9px; border-radius: 4px; border: 1px solid #ff3b5c44; }
         .expand-btn { background: none; border: none; color: #888; font-size: 0.72rem; cursor: pointer; padding: 0; }
         .expand-btn:hover { color: #ff3b5c; }
-
-        /* 天気 */
         .weather-card { background: #1e1e1e; border-radius: 12px; padding: 20px; border: 1px solid #444; border-top: 2px solid #4fc3f7; }
         .area-toggle-btn { background: #2a2a2a; color: #4fc3f7; border: 1px solid #4fc3f744; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-bottom: 12px; }
         .area-selector { display: none; background: #2a2a2a; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
@@ -89,7 +79,7 @@
                 <div class="logo">HAYAMI<span> NEWS</span></div>
                 <div class="logo-sub">速見ニュース — 今日を5分で知る</div>
             </div>
-            <div class="update-time">更新 2026年06月13日 16:06</div>
+            <div class="update-time">更新 2026年06月13日 16:30</div>
         </div>
     </header>
     <nav><div class="nav-inner"><a href="#天気">🌤️ 天気</a><a href="#ニュース">ニュース</a><a href="#テクノロジー">テクノロジー</a><a href="#スポーツ">スポーツ</a><a href="#エンタメ">エンタメ</a><a href="#ゲーム">ゲーム</a><a href="#アニメ">アニメ</a><a href="#経済">経済</a><a href="#国際">国際</a></div></nav>
@@ -131,10 +121,11 @@
             <div class="section-title">ニュース</div>
             <div class="grid">
             <div class="card" id="card_ニュース_0">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148801000.html" target="_blank" rel="noopener">米・イラン覚書“数日中に署名の可能性”双方が言及</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/374b/live/a7cde650-66c7-11f1-8e1d-bbbb1017d210.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>イラン、戦闘終結で合意ならホルムズ海峡は再開と</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">アメリカとイランが戦争をやめるための話し合いをしていて、数日中に約束の紙（覚書）にサインする可能性があると両方の国が言いました。この約束には、船が通る大事な海の道を開くことなどが含まれていて、最後の調整がうまくいくかどうかが大事なポイントになっています。</p>
+                    <p class="card-summary">イランとアメリカが争いをやめることに合意しようとしています。もし合意したら、ホルムズ海峡という大事な船の通り道が、また使えるようになるということです。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cx2jp2vyv4zo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -142,10 +133,11 @@
                 </div>
             </div>
             <div class="card" id="card_ニュース_1">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260614/k10015149461000.html" target="_blank" rel="noopener">名古屋 川で流された中学生が死亡</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/f94f/live/233c68e0-66a3-11f1-80bb-fb4d08542828.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>マスク氏が世界初の「トリリオネア」に　スペースXの株式公開で資産1兆ドル超え</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">名古屋市の川で遊んでいた13歳の男の子が、川の流れに流されてしまいました。残念ながら、その子は亡くなってしまいました。川で遊ぶときは、とても危険なので、大人と一緒にいることや、深い場所には近づかないことが大切です。</p>
+                    <p class="card-summary">イーロン・マスク氏が、自分の会社スペースXが株式市場に上場したことで、世界で初めて資産が1兆ドル（約160兆円）を超える大金持ちになりました。スペースXはロケットや通信、AI関連の事業をしている大きな企業です。</p>
+                    <a href="https://www.bbc.com/japanese/articles/ced4n16v681o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -153,10 +145,11 @@
                 </div>
             </div>
             <div class="card" id="card_ニュース_2">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149241000.html" target="_blank" rel="noopener">兵庫 西宮の住宅街近くでクマ目撃情報相次ぐ</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/085a/live/fe0c57a0-664e-11f1-b1db-af71d47507d6.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>英現代画家ホックニー氏が死去、国王も追悼</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">兵庫県西宮市の住宅の近くでクマが見つかったので、警察と市が住民に気をつけるようにと呼びかけています。神戸市北区の山にいるクマを捕まえるために、わなが仕掛けられました。</p>
+                    <p class="card-summary">イギリスで一番有名な画家の一人、デイヴィッド・ホックニーさんが88才で亡くなりました。イギリスの国王さんをはじめ、世界中の美術の人たちが、ホックニーさんの死を悲しんでいます。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cwy0ex51pl9o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -169,9 +162,10 @@
             <div class="grid">
             <div class="card" id="card_テクノロジー_0">
                 
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148891000.html" target="_blank" rel="noopener">「スペースX」が上場 調達資金 約12兆円は過去最大規模</a></h3>
+                <h3>This thin under-pillow speaker helped me fall asleep without earbuds</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">スペースXというアメリカの宇宙開発の会社が、株を売ることでお金を集めました。集めたお金は約12兆円で、これは今までで一番大きい金額です。この大量のお金を使って、宇宙やAIなどの研究をもっと進めていく予定です。</p>
+                    <p class="card-summary">まくらの下に入れる薄いスピーカーを使ったら、イヤホンをつけなくても寝やすくなりました。著者は昔からよく眠れなくて、ポッドキャストや雨の音など何か聞いていると眠くなるのですが、イヤホンは不快だし、スピーカーから音を出すのは周りの人に迷惑になります。そこでこのまくらの下に入れるスピーカーを使うと、快適に眠れるようになったという話です。</p>
+                    <a href="https://techcrunch.com/2026/06/13/this-thin-under-pillow-speaker-helped-me-fall-asleep-without-earbuds/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -180,9 +174,10 @@
             </div>
             <div class="card" id="card_テクノロジー_1">
                 
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148851000.html" target="_blank" rel="noopener">ウリ信用組合に一部業務停止命令 顧客の預金着服などで 金融庁</a></h3>
+                <h3>The FBI built its own replica small town to simulate real-world cyberattacks</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">札幌市のウリ信用組合という銀行で、昔の偉い人がお客さんのお金を盗んだり、悪いことをしたりしたのに、長い間その事実を隠していました。そのため、金融庁という政府の部門が、この銀行が新しいお客さんにお金を貸したりする仕事をしばらく止めるように命じました。</p>
+                    <p class="card-summary">アメリカのFBI（警察の特別な部門）が、アラバマという場所に本物そっくりの小さな町を作りました。この町は、コンピューターへの悪い攻撃がどのように起こるのかを練習したり、そういう時にどう守るかを学んだりするために使われています。つまり、実際の町で起こるかもしれないコンピューターの危険に備えるための練習場所なのです。</p>
+                    <a href="https://techcrunch.com/2026/06/13/the-fbi-built-its-own-replica-small-town-to-simulate-real-world-cyberattacks/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -191,9 +186,10 @@
             </div>
             <div class="card" id="card_テクノロジー_2">
                 
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148741000.html" target="_blank" rel="noopener">大手航空2社 燃油サーチャージ再度引き上げ 燃料価格高騰で</a></h3>
+                <h3>Andrew Yang thinks the next big startup opportunity is lowering the cost of living</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">飛行機の会社が、ガソリンの値段が高くなっているので、国際線のチケット代を上げることにしました。最近ずっとガソリンが高いままなので、何度も値上げをしているということです。</p>
+                    <p class="card-summary">アメリカの実業家アンドリュー・ヤンさんは、家賃や食べ物、スマートフォン代など、アメリカ人が今払いすぎているものがたくさんあることに気づきました。そこで、これらの費用を安くするビジネスを作ることが、次の大きなビジネスチャンスだと考えています。</p>
+                    <a href="https://techcrunch.com/2026/06/12/andrew-yang-thinks-the-next-big-startup-opportunity-is-lowering-the-cost-of-living/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -203,49 +199,17 @@
         </section>
         <section id="スポーツ">
             <div class="section-title">スポーツ</div>
-            <div class="grid">
-            <div class="card" id="card_スポーツ_0">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149451000.html" target="_blank" rel="noopener">Jリーグで17年ぶりにオールスターゲーム カズも登場</a></h3>
-                <div class="card-summary-wrap">
-                    <p class="card-summary">Jリーグのサッカーの試合で、17年ぶりにオールスターゲームという特別な試合が行われました。このゲームには、59歳の有名な選手・カズが出場して、元気いっぱいにボールを追いかけて、見ている人たちを喜ばせました。</p>
-                </div>
-                <div class="card-footer">
-                    <span class="tag">スポーツ</span>
-                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_0')">要約を見る ▼</button>
-                </div>
-            </div>
-            <div class="card" id="card_スポーツ_1">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149361000.html" target="_blank" rel="noopener">陸上日本選手権 男子100m 多田修平が5年ぶり2回目の優勝</a></h3>
-                <div class="card-summary-wrap">
-                    <p class="card-summary">日本一足が速い人を決める陸上大会で、29歳の多田修平選手が100メートル走で優勝しました。多田選手は5年前にも優勝したことがあり、これが2回目の優勝で、アジア大会という大きな国際大会に出場することが決まりました。</p>
-                </div>
-                <div class="card-footer">
-                    <span class="tag">スポーツ</span>
-                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_1')">要約を見る ▼</button>
-                </div>
-            </div>
-            <div class="card" id="card_スポーツ_2">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149431000.html" target="_blank" rel="noopener">【プロ野球結果】交流戦 ソフトバンクが首位 西武は3位に後退</a></h3>
-                <div class="card-summary-wrap">
-                    <p class="card-summary">プロ野球の交流戦で、それまで1位だった西武が負けてしまいました。そのかわりに2位だったソフトバンクが1位になり、西武は3位に下がってしまいました。</p>
-                </div>
-                <div class="card-footer">
-                    <span class="tag">スポーツ</span>
-                    <button class="expand-btn" onclick="toggleSummary('card_スポーツ_2')">要約を見る ▼</button>
-                </div>
-            </div></div>
+            <div class="grid"></div>
         </section>
         <section id="エンタメ">
             <div class="section-title">エンタメ</div>
             <div class="grid">
             <div class="card" id="card_エンタメ_0">
                 
-                <h3><a href="https://natalie.mu/music/news/676108" target="_blank" rel="noopener">藤井風、内なる愛や神を感じながらパフォーマンス「正直記憶はない」</a></h3>
+                <h3>M!LK「MAJ」で5冠！吉田仁人「トロフィーに滅しても大丈夫でしょうか？」</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">藤井風さんという歌手が、日本で一番大きい音楽の賞をもらいました。歌っている時は心の中の愛や神様のことを考えながらパフォーマンスをしているそうです。藤井風さんは「正直、ステージでの記憶がない」と話していました。</p>
+                    <p class="card-summary">M!LKというアイドルグループが、日本の大きな音楽賞で5つの賞をもらいました。グループのメンバーの吉田仁人さんが、もらったトロフィーを壊してしまうことがないか心配するほど、みんなが嬉しくて興奮していました。</p>
+                    <a href="https://natalie.mu/music/news/676109" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -254,9 +218,10 @@
             </div>
             <div class="card" id="card_エンタメ_1">
                 
-                <h3><a href="https://natalie.mu/music/news/676107" target="_blank" rel="noopener">Mrs. GREEN APPLEは明日もレコーディング、MAJ最優秀アーティスト賞を2年連続受賞</a></h3>
+                <h3>藤井風、内なる愛や神を感じながらパフォーマンス「正直記憶はない」</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">Mrs. GREEN APPLEという有名なバンドが、日本で一番大きな音楽の賞である「MUSIC AWARDS JAPAN 2026」で最優秀アーティスト賞をもらいました。このバンドは去年ももらっているので、2年連続での受賞となります。受賞式の後、バンドのメンバーは明日も新しい歌の録音をする予定だと言っています。</p>
+                    <p class="card-summary">人気シンガーソングライターの藤井風さんが、日本で一番大きな音楽の賞「MUSIC AWARDS JAPAN 2026」で最優秀アルバム賞をもらいました。授賞式では、愛や神様を感じながら歌ったと話していますが、本人は「正直、その時の記憶がない」と言っています。</p>
+                    <a href="https://natalie.mu/music/news/676108" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -265,9 +230,10 @@
             </div>
             <div class="card" id="card_エンタメ_2">
                 
-                <h3><a href="https://natalie.mu/music/news/675893" target="_blank" rel="noopener">【MUSIC AWARDS JAPAN】Mrs. GREEN APPLEが2年連続で最優秀アーティスト賞に輝く</a></h3>
+                <h3>Mrs. GREEN APPLEは明日もレコーディング、MAJ最優秀アーティスト賞を2年連続受賞</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">Mrs. GREEN APPLEというバンドが、「ミュージック・アワーズ・ジャパン2026」という大切な音楽の賞で、最優秀アーティスト賞をもらいました。このバンドは去年ももらっているので、2年連続での受賞です。ほかにも有名なアーティストたちが候補に挙がっていましたが、Mrs. GREEN APPLEが選ばれました。</p>
+                    <p class="card-summary">Mrs. GREEN APPLEという有名なバンドが、日本で一番大きな音楽の賞を2年続けて受け取りました。このバンドはとても人気があって、これからもたくさん新しい曲を作る予定だそうです。</p>
+                    <a href="https://natalie.mu/music/news/676107" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -280,9 +246,10 @@
             <div class="grid">
             <div class="card" id="card_ゲーム_0">
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/20260613-449600-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://automaton-media.com/articles/newsjp/20260613-449600/" target="_blank" rel="noopener">スマッシュヒット中へんてこキメラ進化ローグライト『Everything is Crab』売上50万本突破。生物進化アクションの勢い止まらず、開発元は“タカアシガニ級”の大感謝</a></h3>
+                <h3>スマッシュヒット中へんてこキメラ進化ローグライト『Everything is Crab』売上50万本突破。生物進化アクションの勢い止まらず、開発元は“タカアシガニ級”の大感謝</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">『Everything is Crab』というゲームが、発売されてから約1か月で50万本も売れました。このゲームは、生き物が進化していく楽しいアクションゲームで、世界中の人たちに大人気になっています。開発した会社は、こんなにたくさんの人に遊んでもらえてとても感謝しています。</p>
+                    <p class="card-summary">『Everything is Crab』というゲームが、発売してからわずか1か月で50万本も売れました。このゲームは、生き物が進化していくおもしろいアクションゲームで、世界中の人たちにとても人気があります。開発した会社は、たくさんの人がゲームをしてくれて、とても感謝しているそうです。</p>
+                    <a href="https://automaton-media.com/articles/newsjp/20260613-449600/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -291,9 +258,10 @@
             </div>
             <div class="card" id="card_ゲーム_1">
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/over-the-hill-20260613-449594-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://automaton-media.com/articles/newsjp/over-the-hill-20260613-449594/" target="_blank" rel="noopener">最大4人協力プレイ対応・荒野ドライブ探索ゲーム『over the hill』、体験版からさっそく好評集まる。絶景や動物との出会いを求め、まったり荒野を走る</a></h3>
+                <h3>最大4人協力プレイ対応・荒野ドライブ探索ゲーム『over the hill』、体験版からさっそく好評集まる。絶景や動物との出会いを求め、まったり荒野を走る</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">『over the hill』というゲームが体験版として公開され、とても人気になっています。このゲームは、オフロード車に乗って広い荒野を探索するもので、最大4人で一緒に遊ぶことができます。きれいな景色や動物との出会いを楽しみながら、ゆっくりと荒野を走ることができるゲームです。</p>
+                    <p class="card-summary">『over the hill』という新しいゲームの体験版が配信されて、とても人気になっています。このゲームは、オフロード車という特別な車に乗って、広い荒野を探索したり、きれいな景色や動物たちに出会ったりするゲームです。最大4人まで一緒に遊ぶことができるので、友達と協力して楽しむことができます。</p>
+                    <a href="https://automaton-media.com/articles/newsjp/over-the-hill-20260613-449594/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -302,9 +270,10 @@
             </div>
             <div class="card" id="card_ゲーム_2">
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/06/20260613-449585-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://automaton-media.com/articles/newsjp/20260613-449585/" target="_blank" rel="noopener">人気飛行船オープンワールド『Everwind』開発元、「現実のカピバラの里親になった」とやたら大々的に発表。ゲームに出すだけじゃ我慢できなかった</a></h3>
+                <h3>人気飛行船オープンワールド『Everwind』開発元、「現実のカピバラの里親になった」とやたら大々的に発表。ゲームに出すだけじゃ我慢できなかった</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">人気ゲーム『Everwind』の開発チームが、ゲームに登場するカピバラがとても好きになりすぎて、実際のプラハ動物園にいるカピバラの里親になったと発表しました。ゲームの中だけでなく、現実の動物も応援したいという気持ちからだったということです。</p>
+                    <p class="card-summary">ゲーム『Everwind』を作っている会社が、ゲームの中だけでなく、実際の動物園にいるカピバラの里親になったと発表しました。その会社はカピバラのことがとても好きなんだそうです。</p>
+                    <a href="https://automaton-media.com/articles/newsjp/20260613-449585/" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -317,9 +286,10 @@
             <div class="grid">
             <div class="card" id="card_アニメ_0">
                 
-                <h3><a href="https://animeanime.jp/article/2026/06/13/100025.html" target="_blank" rel="noopener">「ToLoveる」リトの妹・美柑が高校生の姿に！奇跡のフィギュアが再販☆ 無邪気さとセクシーさの融合に注目</a></h3>
+                <h3>「ToLoveる」リトの妹・美柑が高校生の姿に！奇跡のフィギュアが再販☆ 無邪気さとセクシーさの融合に注目</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">人気アニメ「ToLoveる」に登場するリトの妹・美柑が高校生になった姿のフィギュア（人形）が、もう一度売られることになりました。このフィギュアは、かわいらしさと大人っぽさが両方表現されていることで、ファンから注目されています。</p>
+                    <p class="card-summary">人気のマンガやアニメに出てくるキャラクター・美柑が、大人っぽい高校生の姿になったおもちゃが再びお店に並ぶことになりました。このおもちゃは、子どもらしい元気さと大人っぽさが上手に混ざっていて、ファンの間で人気があります。</p>
+                    <a href="https://animeanime.jp/article/2026/06/13/100025.html" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -328,9 +298,10 @@
             </div>
             <div class="card" id="card_アニメ_1">
                 
-                <h3><a href="https://animeanime.jp/article/2026/06/13/100024.html" target="_blank" rel="noopener">「クラにか」朝凪海、天海夕、新田新奈の浴衣姿にドキドキ☆ くじ引き堂に豪華グッズが登場</a></h3>
+                <h3>「クラにか」朝凪海、天海夕、新田新奈の浴衣姿にドキドキ☆ くじ引き堂に豪華グッズが登場</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">「クラにか」というアニメのキャラクター3人が浴衣を着た可愛い姿が見られるグッズが、くじ引きのお店に出ました。ファンはこのグッズが欲しくてドキドキしながら引いてみたくなっちゃいます。</p>
+                    <p class="card-summary">「クラにか」というアニメのキャラクターたちが、夏祭りで着る浴衣姿で登場する新しいグッズが販売されることになりました。このグッズはくじ引きで手に入れることができるので、ファンたちはドキドキしながら挑戦することができます。</p>
+                    <a href="https://animeanime.jp/article/2026/06/13/100024.html" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -339,9 +310,10 @@
             </div>
             <div class="card" id="card_アニメ_2">
                 
-                <h3><a href="https://animeanime.jp/article/2026/06/13/100023.html" target="_blank" rel="noopener">アニメ化してほしいゲームは？【家庭用編】2位「スプラ」＆「ゼノブレ」＆「ゼルダ」＆「東方」＆「トシカイ」、1位は… ＜26年上半期版＞</a></h3>
+                <h3>アニメ化してほしいゲームは？【家庭用編】2位「スプラ」＆「ゼノブレ」＆「ゼルダ」＆「東方」＆「トシカイ」、1位は… ＜26年上半期版＞</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">ゲームをアニメにしてほしいか聞いたアンケートで、たくさんの人が「スプラトゥーン」や「ゼルダの伝説」などのゲームをアニメにしてほしいと答えました。その中で一番人気だったゲームがあって、それがアニメ化してほしいゲームの1位になったということです。</p>
+                    <p class="card-summary">人気のゲームの中から、アニメ化してほしいゲームについてアンケートを取りました。スプラやゼルダの伝説などのゲームがアニメになることを望む人がたくさんいることがわかりました。1位のゲームはこのアンケート結果で明らかになるとのことです。</p>
+                    <a href="https://animeanime.jp/article/2026/06/13/100023.html" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -353,10 +325,11 @@
             <div class="section-title">経済</div>
             <div class="grid">
             <div class="card" id="card_経済_0">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148991000.html" target="_blank" rel="noopener">歌詞も曲もAIが生成した音楽「著作物に該当しない」JASRAC方針</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/374b/live/a7cde650-66c7-11f1-8e1d-bbbb1017d210.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>イラン、戦闘終結で合意ならホルムズ海峡は再開と</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">人間がAIに簡単な指示をしただけで作られた音楽は、人間が工夫して作ったものではないため、著作権で守られない作品だと決めました。これからは、AIが作った音楽でも、人間がしっかり工夫して作られたものだけが著作権で守られることになります。</p>
+                    <p class="card-summary">イランとアメリカが戦い合うのをやめることに合意しそうで、そうなるとホルムズ海峡という大切な海の通り道が再び使えるようになるということです。この合意によって、世界中の船がその海を安全に通れるようになります。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cx2jp2vyv4zo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -364,10 +337,11 @@
                 </div>
             </div>
             <div class="card" id="card_経済_1">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148131000.html" target="_blank" rel="noopener">H3ロケット打ち上げ成功 6つの小型衛星を軌道に投入 JAXA</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/f94f/live/233c68e0-66a3-11f1-80bb-fb4d08542828.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>マスク氏が世界初の「トリリオネア」に　スペースXの株式公開で資産1兆ドル超え</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">日本が打ち上げたロケット「H3」が、鹿児島県から無事に飛び出して、6つの小さな衛星を宇宙に送ることに成功しました。去年失敗してしまったので、今回の成功は日本の宇宙開発にとってとても大切な出来事です。</p>
+                    <p class="card-summary">イーロン・マスク氏という実業家が、自分が持っている宇宙ロケット会社スペースXの株価が大きく上がったことで、世界で初めて資産が160兆円以上になる大金持ちになりました。スペースXはロケットや通信、AIなどの事業を行っている会社で、今回株を公開売却したことで、その価値が330兆円まで上がったのです。</p>
+                    <a href="https://www.bbc.com/japanese/articles/ced4n16v681o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -375,10 +349,11 @@
                 </div>
             </div>
             <div class="card" id="card_経済_2">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260612/k10015148751000.html" target="_blank" rel="noopener">北陸電力が志賀原発の津波想定を引き上げ 能登半島地震を受け</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/085a/live/fe0c57a0-664e-11f1-b1db-af71d47507d6.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>英現代画家ホックニー氏が死去、国王も追悼</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">北陸電力が、石川県の志賀原子力発電所で起こる可能性がある津波の高さを、これまでより5メートル高い最大12メートルを超える高さに変更しました。これは、おととしの能登半島地震を参考にして決めたもので、今後はこの新しい津波の高さに対応できるように、施設を整備して安全性を確認することになります。</p>
+                    <p class="card-summary">イギリスの有名な画家デイヴィッド・ホックニーさんが88歳で亡くなりました。彼は絵をたくさん描いて、世界中の人たちに愛されていました。イギリスの国王をふくむ、たくさんの人たちが彼の死を悲しんでいます。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cwy0ex51pl9o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -390,10 +365,11 @@
             <div class="section-title">国際</div>
             <div class="grid">
             <div class="card" id="card_国際_0">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015148801000.html" target="_blank" rel="noopener">米・イラン覚書“数日中に署名の可能性”双方が言及</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/374b/live/a7cde650-66c7-11f1-8e1d-bbbb1017d210.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>イラン、戦闘終結で合意ならホルムズ海峡は再開と</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">アメリカとイランが戦闘をやめるための話し合いをしていて、もうすぐ二つの国が約束を書いた紙にサインすることになりそうです。この約束には、船が通る大事な海の通り道をふさぐのをやめることなどが含まれています。</p>
+                    <p class="card-summary">イランとアメリカが争いをやめることに合意しようとしています。もしこの合意ができたら、ホルムズ海峡という大切な船の通り道が、また使えるようになるということです。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cx2jp2vyv4zo?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
@@ -401,10 +377,11 @@
                 </div>
             </div>
             <div class="card" id="card_国際_1">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149441000.html" target="_blank" rel="noopener">中国で台湾との交流拡大を目指すフォーラム開催</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/f94f/live/233c68e0-66a3-11f1-80bb-fb4d08542828.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>マスク氏が世界初の「トリリオネア」に　スペースXの株式公開で資産1兆ドル超え</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">中国で、台湾との交流を増やすためのフォーラムが開かれました。中国は台湾が独立することに反対し、経済などを通じてもっと近い関係にしたいと言っています。しかし、台湾の政府はこの動きを危険だと感じて、注意深く見守っています。</p>
+                    <p class="card-summary">イーロン・マスク氏が、自分で作った宇宙ロケット会社スペースXが大きく成長したことで、世界で初めて資産が約160兆円を超えるお金持ちになりました。スペースXはロケットや通信、人工知能の会社で、この会社の価値が約330兆円になったため、マスク氏の持っている資産全体が約166兆円にもなったのです。</p>
+                    <a href="https://www.bbc.com/japanese/articles/ced4n16v681o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
@@ -412,10 +389,11 @@
                 </div>
             </div>
             <div class="card" id="card_国際_2">
-                
-                <h3><a href="http://www3.nhk.or.jp/news/html/20260613/k10015149421000.html" target="_blank" rel="noopener">北朝鮮外務省 “核保有国”認めぬ韓国とEUの共同声明へ反発</a></h3>
+                <div class="card-img"><img src="https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/085a/live/fe0c57a0-664e-11f1-b1db-af71d47507d6.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3>英現代画家ホックニー氏が死去、国王も追悼</h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">韓国の大統領がヨーロッパと一緒に「北朝鮮は核を持つ国として認めない」という声明を出しました。これに対して北朝鮮は「韓国は敵だ」と怒って反発しました。</p>
+                    <p class="card-summary">イギリスの有名な画家・デイヴィッド・ホックニーさんが亡くなりました。彼は88歳で、イギリスでとても大切にされている画家でした。国王さんをふくめて、世界中の人たちが彼のことを悲しんでいます。</p>
+                    <a href="https://www.bbc.com/japanese/articles/cwy0ex51pl9o?at_medium=RSS&at_campaign=rss" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
@@ -428,7 +406,6 @@
         <span style="font-size:0.72rem;color:#333;margin-top:6px;display:block;">ニュースの内容はAIが要約しています</span>
     </footer>
     <script>
-    // ★タップ展開
     function toggleSummary(cardId) {
         const card = document.getElementById(cardId);
         const wrap = card.querySelector('.card-summary-wrap');
@@ -436,8 +413,6 @@
         const isOpen = wrap.classList.toggle('open');
         btn.textContent = isOpen ? '閉じる ▲' : '要約を見る ▼';
     }
-
-    // 天気
     const WEATHER_ICONS = {"晴":"☀️","快晴":"☀️","曇":"⛅","くもり":"⛅","雨":"🌧️","小雨":"🌦️","雪":"❄️","雷":"⚡"};
     function getIcon(text) {
         for(const [k,v] of Object.entries(WEATHER_ICONS)) { if(text.includes(k)) return v; }
