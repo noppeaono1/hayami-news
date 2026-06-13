@@ -3,6 +3,7 @@ import anthropic
 import os
 import json
 import urllib.request
+import urllib.error
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -125,6 +126,8 @@ def fetch_weather(area_code="130000"):
         return None
 
 def get_ogp_image(entry):
+    import re
+    # 1) media:content / media:thumbnail
     if hasattr(entry, 'media_content') and entry.media_content:
         url = entry.media_content[0].get('url', '')
         if url:
@@ -133,20 +136,30 @@ def get_ogp_image(entry):
         url = entry.media_thumbnail[0].get('url', '')
         if url:
             return url
+    # 2) enclosures
     if hasattr(entry, 'enclosures') and entry.enclosures:
         for enc in entry.enclosures:
             if enc.get('type', '').startswith('image'):
                 return enc.get('href', '')
-    if hasattr(entry, 'links'):
-        for link in entry.links:
-            if link.get('type', '').startswith('image'):
-                return link.get('href', '')
+    # 3) summary内のimgタグ
     summary = entry.get('summary', '')
     if '<img' in summary:
-        import re
         m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', summary)
         if m:
             return m.group(1)
+    # 4) 記事ページからOGP取得
+    try:
+        link = entry.link
+        req = urllib.request.Request(link, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=5) as res:
+            html = res.read().decode("utf-8", errors="ignore")
+        m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', html)
+        if not m:
+            m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', html)
+        if m:
+            return m.group(1)
+    except:
+        pass
     return ''
 
 def fetch_news(category, urls):
@@ -169,11 +182,12 @@ def fetch_news(category, urls):
 def summarize_article(article):
     message = anthropic_client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=200,
+        max_tokens=300,
         messages=[{
             "role": "user",
-            "content": f"""以下のニュースを小学生でもわかる言葉で2〜3文で要約してください。
-「# 要約」「# 簡単な説明」などの見出しは絶対につけず、いきなり本文から始めてください。
+            "content": f"""以下のニュースを小学生でもわかる言葉で3〜4文で要約してください。
+何が起きたか、なぜ重要か、どんな影響があるかがわかるように書いてください。
+「# 要約」などの見出しは絶対につけず、いきなり本文から始めてください。
 
 タイトル：{article['title']}
 内容：{article['summary']}"""
@@ -250,10 +264,9 @@ def generate_html(all_articles, weather=None):
             cards_html += f"""
             <div class="card" id="{card_id}">
                 {img_html}
-                <h3>{article['title']}</h3>
+                <h3><a href="{article['link']}" target="_blank" rel="noopener">{article['title']}</a></h3>
                 <div class="card-summary-wrap">
                     <p class="card-summary">{article['summary_text']}</p>
-                    <a href="{article['link']}" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">{article['category']}</span>
@@ -298,11 +311,11 @@ def generate_html(all_articles, weather=None):
         .card-img {{ width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #2a2a2a; }}
         .card-img img {{ width: 100%; height: 100%; object-fit: cover; display: block; }}
         .card h3 {{ font-size: 0.92rem; color: #f0f0f0; margin: 12px 16px 8px; line-height: 1.55; }}
-        .card-summary-wrap {{ max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 16px; }}
-        .card-summary-wrap.open {{ max-height: 300px; padding: 0 16px 10px; }}
-        .card-summary {{ font-size: 0.82rem; color: #bbb; line-height: 1.8; margin-bottom: 8px; }}
-        .read-more {{ display: inline-block; color: #ff3b5c; font-size: 0.75rem; text-decoration: none; }}
-        .read-more:hover {{ text-decoration: underline; }}
+        .card h3 a {{ color: #f0f0f0; text-decoration: none; }}
+        .card h3 a:hover {{ color: #ff3b5c; }}
+        .card-summary-wrap {{ max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; padding: 0 16px; }}
+        .card-summary-wrap.open {{ max-height: 400px; padding: 0 16px 10px; }}
+        .card-summary {{ font-size: 0.82rem; color: #bbb; line-height: 1.8; }}
         .card-footer {{ display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 14px; margin-top: auto; }}
         .tag {{ display: inline-block; background: #ff3b5c22; color: #ff3b5c; font-size: 0.68rem; padding: 3px 9px; border-radius: 4px; border: 1px solid #ff3b5c44; }}
         .expand-btn {{ background: none; border: none; color: #888; font-size: 0.72rem; cursor: pointer; padding: 0; }}
