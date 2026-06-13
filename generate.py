@@ -11,6 +11,12 @@ load_dotenv()
 
 anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+# X API設定
+TWITTER_API_KEY = os.getenv("TWITTER_API_KEY")
+TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
+TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
+
 RSS_FEEDS = {
     "ニュース": ["https://news.livedoor.com/topics/rss/top.xml"],
     "テクノロジー": ["https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml"],
@@ -20,6 +26,17 @@ RSS_FEEDS = {
     "アニメ": ["https://animeanime.jp/rss/index.rdf"],
     "経済": ["https://news.livedoor.com/topics/rss/eco.xml"],
     "国際": ["https://news.livedoor.com/topics/rss/int.xml"],
+}
+
+CATEGORY_HASHTAGS = {
+    "ニュース": "#ニュース #速報 #日本 #時事 #トレンド",
+    "テクノロジー": "#テクノロジー #IT #tech #AI #ガジェット",
+    "スポーツ": "#スポーツ #sports #野球 #サッカー #応援",
+    "エンタメ": "#エンタメ #芸能 #音楽 #エンターテイメント",
+    "ゲーム": "#ゲーム #gaming #ゲーマー #PS5 #Nintendo",
+    "アニメ": "#アニメ #anime #オタク #マンガ #声優",
+    "経済": "#経済 #ビジネス #株 #投資 #お金",
+    "国際": "#国際 #海外 #世界 #外交 #グローバル",
 }
 
 AREAS = {
@@ -127,7 +144,6 @@ def fetch_weather(area_code="130000"):
 
 def get_ogp_image(entry):
     import re
-    # 1) media:content / media:thumbnail
     if hasattr(entry, 'media_content') and entry.media_content:
         url = entry.media_content[0].get('url', '')
         if url:
@@ -136,18 +152,15 @@ def get_ogp_image(entry):
         url = entry.media_thumbnail[0].get('url', '')
         if url:
             return url
-    # 2) enclosures
     if hasattr(entry, 'enclosures') and entry.enclosures:
         for enc in entry.enclosures:
             if enc.get('type', '').startswith('image'):
                 return enc.get('href', '')
-    # 3) summary内のimgタグ
     summary = entry.get('summary', '')
     if '<img' in summary:
         m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', summary)
         if m:
             return m.group(1)
-    # 4) 記事ページからOGP取得
     try:
         link = entry.link
         req = urllib.request.Request(link, headers={"User-Agent": "Mozilla/5.0"})
@@ -194,6 +207,76 @@ def summarize_article(article):
         }]
     )
     return message.content[0].text
+
+def post_to_twitter(article):
+    """X(Twitter)に投稿する"""
+    try:
+        import hmac
+        import hashlib
+        import base64
+        import time
+        import random
+        import string
+        from urllib.parse import quote, urlencode
+
+        category = article['category']
+        hashtags = CATEGORY_HASHTAGS.get(category, "#ニュース #速見ニュース")
+        
+        # ツイート本文作成（140文字に収まるよう調整）
+        title = article['title'][:40]
+        summary = article['summary_text'][:80]
+        tweet_text = f"【速見ニュース】{title}\n\n{summary}\n\n続きはプロフィールのリンクから👇\n\n{hashtags} #速見ニュース #AI要約"
+
+        # OAuth 1.0a認証
+        url = "https://api.twitter.com/2/tweets"
+        method = "POST"
+        
+        oauth_timestamp = str(int(time.time()))
+        oauth_nonce = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+        
+        oauth_params = {
+            'oauth_consumer_key': TWITTER_API_KEY,
+            'oauth_nonce': oauth_nonce,
+            'oauth_signature_method': 'HMAC-SHA1',
+            'oauth_timestamp': oauth_timestamp,
+            'oauth_token': TWITTER_ACCESS_TOKEN,
+            'oauth_version': '1.0',
+        }
+        
+        # シグネチャ生成
+        params_string = '&'.join([f"{quote(k, safe='')}={quote(v, safe='')}" 
+                                   for k, v in sorted(oauth_params.items())])
+        base_string = f"{method}&{quote(url, safe='')}&{quote(params_string, safe='')}"
+        signing_key = f"{quote(TWITTER_API_SECRET, safe='')}&{quote(TWITTER_ACCESS_TOKEN_SECRET, safe='')}"
+        
+        signature = base64.b64encode(
+            hmac.new(signing_key.encode(), base_string.encode(), hashlib.sha1).digest()
+        ).decode()
+        
+        oauth_params['oauth_signature'] = signature
+        auth_header = 'OAuth ' + ', '.join([f'{quote(k, safe="")}="{quote(v, safe="")}"' 
+                                             for k, v in sorted(oauth_params.items())])
+        
+        # リクエスト送信
+        body = json.dumps({"text": tweet_text}).encode('utf-8')
+        req = urllib.request.Request(
+            url,
+            data=body,
+            headers={
+                'Authorization': auth_header,
+                'Content-Type': 'application/json',
+            },
+            method='POST'
+        )
+        
+        with urllib.request.urlopen(req, timeout=10) as res:
+            result = json.loads(res.read().decode('utf-8'))
+            print(f"X投稿成功: {tweet_text[:50]}...")
+            return True
+            
+    except Exception as e:
+        print(f"X投稿エラー: {e}")
+        return False
 
 def generate_area_selector():
     html = ""
@@ -470,6 +553,18 @@ def main():
 
     print("HTMLを生成中...")
     generate_html(all_articles, weather)
+
+    # X自動投稿（ニュースカテゴリの1記事目を投稿）
+    if TWITTER_API_KEY and TWITTER_ACCESS_TOKEN:
+        print("Xに投稿中...")
+        # 全カテゴリからランダムに1記事選んで投稿
+        import random
+        categories = list(all_articles.keys())
+        chosen_category = random.choice(categories)
+        articles = all_articles[chosen_category]
+        if articles:
+            post_to_twitter(articles[0])
+    
     print("完了！")
 
 if __name__ == "__main__":
