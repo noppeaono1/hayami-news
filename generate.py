@@ -11,14 +11,14 @@ load_dotenv()
 anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 RSS_FEEDS = {
-    "ニュース": ["https://www3.nhk.or.jp/rss/news/cat0.xml"],
-    "テクノロジー": ["https://www3.nhk.or.jp/rss/news/cat5.xml"],
-    "スポーツ": ["https://www3.nhk.or.jp/rss/news/cat7.xml"],
+    "ニュース": ["https://feeds.bbci.co.uk/japanese/rss.xml"],
+    "テクノロジー": ["https://techcrunch.com/feed/"],
+    "スポーツ": ["https://sportsnavi.ht.kyodo-d.jp/sports/rss/all.xml"],
     "エンタメ": ["https://natalie.mu/music/feed/news"],
     "ゲーム": ["https://automaton-media.com/feed/"],
     "アニメ": ["https://animeanime.jp/rss/index.rdf"],
-    "経済": ["https://www3.nhk.or.jp/rss/news/cat3.xml"],
-    "国際": ["https://www3.nhk.or.jp/rss/news/cat6.xml"],
+    "経済": ["https://feeds.bbci.co.uk/japanese/business/rss.xml"],
+    "国際": ["https://feeds.bbci.co.uk/japanese/world/rss.xml"],
 }
 
 AREAS = {
@@ -124,9 +124,7 @@ def fetch_weather(area_code="130000"):
         print(f"天気取得エラー: {e}")
         return None
 
-# ★追加: OGP画像URLをRSSエントリから取得
 def get_ogp_image(entry):
-    # 1) media:content / media:thumbnail
     if hasattr(entry, 'media_content') and entry.media_content:
         url = entry.media_content[0].get('url', '')
         if url:
@@ -135,17 +133,14 @@ def get_ogp_image(entry):
         url = entry.media_thumbnail[0].get('url', '')
         if url:
             return url
-    # 2) enclosures
     if hasattr(entry, 'enclosures') and entry.enclosures:
         for enc in entry.enclosures:
             if enc.get('type', '').startswith('image'):
                 return enc.get('href', '')
-    # 3) links
     if hasattr(entry, 'links'):
         for link in entry.links:
             if link.get('type', '').startswith('image'):
                 return link.get('href', '')
-    # 4) summary内のimgタグ
     summary = entry.get('summary', '')
     if '<img' in summary:
         import re
@@ -165,7 +160,7 @@ def fetch_news(category, urls):
                     "summary": entry.get("summary", ""),
                     "link": entry.link,
                     "category": category,
-                    "image": get_ogp_image(entry),  # ★追加
+                    "image": get_ogp_image(entry),
                 })
         except:
             pass
@@ -255,9 +250,10 @@ def generate_html(all_articles, weather=None):
             cards_html += f"""
             <div class="card" id="{card_id}">
                 {img_html}
-                <h3><a href="{article['link']}" target="_blank" rel="noopener">{article['title']}</a></h3>
+                <h3>{article['title']}</h3>
                 <div class="card-summary-wrap">
                     <p class="card-summary">{article['summary_text']}</p>
+                    <a href="{article['link']}" target="_blank" rel="noopener" class="read-more">元記事を読む →</a>
                 </div>
                 <div class="card-footer">
                     <span class="tag">{article['category']}</span>
@@ -297,30 +293,20 @@ def generate_html(all_articles, weather=None):
         .grid {{ display: grid; grid-template-columns: 1fr; gap: 10px; }}
         @media(min-width: 640px) {{ .grid {{ grid-template-columns: repeat(2, 1fr); }} }}
         @media(min-width: 900px) {{ .grid {{ grid-template-columns: repeat(3, 1fr); }} }}
-
-        /* ★カード */
         .card {{ background: #1e1e1e; border-radius: 10px; overflow: hidden; border: 1px solid #444; border-top: 2px solid #ff3b5c; transition: transform 0.15s; display: flex; flex-direction: column; }}
         .card:hover {{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }}
-
-        /* ★OGP画像 */
         .card-img {{ width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #2a2a2a; }}
         .card-img img {{ width: 100%; height: 100%; object-fit: cover; display: block; }}
-
         .card h3 {{ font-size: 0.92rem; color: #f0f0f0; margin: 12px 16px 8px; line-height: 1.55; }}
-        .card h3 a {{ color: #f0f0f0; text-decoration: none; }}
-        .card h3 a:hover {{ color: #ff3b5c; }}
-
-        /* ★タップ展開 */
         .card-summary-wrap {{ max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; padding: 0 16px; }}
-        .card-summary-wrap.open {{ max-height: 200px; padding: 0 16px 10px; }}
-        .card-summary {{ font-size: 0.82rem; color: #bbb; line-height: 1.8; }}
-
+        .card-summary-wrap.open {{ max-height: 300px; padding: 0 16px 10px; }}
+        .card-summary {{ font-size: 0.82rem; color: #bbb; line-height: 1.8; margin-bottom: 8px; }}
+        .read-more {{ display: inline-block; color: #ff3b5c; font-size: 0.75rem; text-decoration: none; }}
+        .read-more:hover {{ text-decoration: underline; }}
         .card-footer {{ display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 14px; margin-top: auto; }}
         .tag {{ display: inline-block; background: #ff3b5c22; color: #ff3b5c; font-size: 0.68rem; padding: 3px 9px; border-radius: 4px; border: 1px solid #ff3b5c44; }}
         .expand-btn {{ background: none; border: none; color: #888; font-size: 0.72rem; cursor: pointer; padding: 0; }}
         .expand-btn:hover {{ color: #ff3b5c; }}
-
-        /* 天気 */
         .weather-card {{ background: #1e1e1e; border-radius: 12px; padding: 20px; border: 1px solid #444; border-top: 2px solid #4fc3f7; }}
         .area-toggle-btn {{ background: #2a2a2a; color: #4fc3f7; border: 1px solid #4fc3f744; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-bottom: 12px; }}
         .area-selector {{ display: none; background: #2a2a2a; border-radius: 10px; padding: 14px; margin-bottom: 14px; }}
@@ -371,7 +357,6 @@ def generate_html(all_articles, weather=None):
         <span style="font-size:0.72rem;color:#333;margin-top:6px;display:block;">ニュースの内容はAIが要約しています</span>
     </footer>
     <script>
-    // ★タップ展開
     function toggleSummary(cardId) {{
         const card = document.getElementById(cardId);
         const wrap = card.querySelector('.card-summary-wrap');
@@ -379,8 +364,6 @@ def generate_html(all_articles, weather=None):
         const isOpen = wrap.classList.toggle('open');
         btn.textContent = isOpen ? '閉じる ▲' : '要約を見る ▼';
     }}
-
-    // 天気
     const WEATHER_ICONS = {{"晴":"☀️","快晴":"☀️","曇":"⛅","くもり":"⛅","雨":"🌧️","小雨":"🌦️","雪":"❄️","雷":"⚡"}};
     function getIcon(text) {{
         for(const [k,v] of Object.entries(WEATHER_ICONS)) {{ if(text.includes(k)) return v; }}
