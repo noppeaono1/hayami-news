@@ -215,9 +215,9 @@ def post_to_twitter(article):
         category = article['category']
         hashtags = CATEGORY_HASHTAGS.get(category, "#ニュース #速見ニュース")
 
-        title = article['title'][:40]
-        summary = article['summary_text'][:80]
-        tweet_text = f"【速見ニュース】{title}\n\n{summary}\n\n続きはプロフィールのリンクから👇\n\n{hashtags} #速見ニュース #AI要約"
+        title = article['title'][:30]
+        summary = article['summary_text'][:40]
+        tweet_text = f"【速見ニュース】{title}\n\n{summary}\n\n{hashtags}"
 
         client = tweepy.Client(
             consumer_key=TWITTER_API_KEY,
