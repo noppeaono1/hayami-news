@@ -23,7 +23,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install anthropic feedparser python-dotenv
+        run: pip install anthropic feedparser python-dotenv tweepy
 
       - name: Generate site
         env:

@@ -4,6 +4,7 @@ import os
 import json
 import urllib.request
 import urllib.error
+import tweepy
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -211,69 +212,24 @@ def summarize_article(article):
 def post_to_twitter(article):
     """X(Twitter)に投稿する"""
     try:
-        import hmac
-        import hashlib
-        import base64
-        import time
-        import random
-        import string
-        from urllib.parse import quote, urlencode
-
         category = article['category']
         hashtags = CATEGORY_HASHTAGS.get(category, "#ニュース #速見ニュース")
-        
-        # ツイート本文作成（140文字に収まるよう調整）
+
         title = article['title'][:40]
         summary = article['summary_text'][:80]
         tweet_text = f"【速見ニュース】{title}\n\n{summary}\n\n続きはプロフィールのリンクから👇\n\n{hashtags} #速見ニュース #AI要約"
 
-        # OAuth 1.0a認証
-        url = "https://api.twitter.com/2/tweets"
-        method = "POST"
-        
-        oauth_timestamp = str(int(time.time()))
-        oauth_nonce = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
-        
-        oauth_params = {
-            'oauth_consumer_key': TWITTER_API_KEY,
-            'oauth_nonce': oauth_nonce,
-            'oauth_signature_method': 'HMAC-SHA1',
-            'oauth_timestamp': oauth_timestamp,
-            'oauth_token': TWITTER_ACCESS_TOKEN,
-            'oauth_version': '1.0',
-        }
-        
-        # シグネチャ生成
-        params_string = '&'.join([f"{quote(k, safe='')}={quote(v, safe='')}" 
-                                   for k, v in sorted(oauth_params.items())])
-        base_string = f"{method}&{quote(url, safe='')}&{quote(params_string, safe='')}"
-        signing_key = f"{quote(TWITTER_API_SECRET, safe='')}&{quote(TWITTER_ACCESS_TOKEN_SECRET, safe='')}"
-        
-        signature = base64.b64encode(
-            hmac.new(signing_key.encode(), base_string.encode(), hashlib.sha1).digest()
-        ).decode()
-        
-        oauth_params['oauth_signature'] = signature
-        auth_header = 'OAuth ' + ', '.join([f'{quote(k, safe="")}="{quote(v, safe="")}"' 
-                                             for k, v in sorted(oauth_params.items())])
-        
-        # リクエスト送信
-        body = json.dumps({"text": tweet_text}).encode('utf-8')
-        req = urllib.request.Request(
-            url,
-            data=body,
-            headers={
-                'Authorization': auth_header,
-                'Content-Type': 'application/json',
-            },
-            method='POST'
+        client = tweepy.Client(
+            consumer_key=TWITTER_API_KEY,
+            consumer_secret=TWITTER_API_SECRET,
+            access_token=TWITTER_ACCESS_TOKEN,
+            access_token_secret=TWITTER_ACCESS_TOKEN_SECRET
         )
-        
-        with urllib.request.urlopen(req, timeout=10) as res:
-            result = json.loads(res.read().decode('utf-8'))
-            print(f"X投稿成功: {tweet_text[:50]}...")
-            return True
-            
+
+        response = client.create_tweet(text=tweet_text)
+        print(f"X投稿成功: {tweet_text[:50]}...")
+        return True
+
     except Exception as e:
         print(f"X投稿エラー: {e}")
         return False
@@ -554,17 +510,15 @@ def main():
     print("HTMLを生成中...")
     generate_html(all_articles, weather)
 
-    # X自動投稿（ニュースカテゴリの1記事目を投稿）
     if TWITTER_API_KEY and TWITTER_ACCESS_TOKEN:
         print("Xに投稿中...")
-        # 全カテゴリからランダムに1記事選んで投稿
         import random
         categories = list(all_articles.keys())
         chosen_category = random.choice(categories)
         articles = all_articles[chosen_category]
         if articles:
             post_to_twitter(articles[0])
-    
+
     print("完了！")
 
 if __name__ == "__main__":
