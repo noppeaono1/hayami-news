@@ -79,54 +79,23 @@
                 <div class="logo">HAYAMI<span> NEWS</span></div>
                 <div class="logo-sub">速見ニュース — 今日を5分で知る</div>
             </div>
-            <div class="update-time">更新 2026年07月03日 12:57</div>
+            <div class="update-time">更新 2026年07月03日 23:14</div>
         </div>
     </header>
     <nav><div class="nav-inner"><a href="#天気">🌤️ 天気</a><a href="#ニュース">ニュース</a><a href="#テクノロジー">テクノロジー</a><a href="#スポーツ">スポーツ</a><a href="#エンタメ">エンタメ</a><a href="#ゲーム">ゲーム</a><a href="#アニメ">アニメ</a><a href="#経済">経済</a><a href="#国際">国際</a></div></nav>
     <main>
     <section id="天気">
         <div class="section-title">今日の天気</div>
-        
-    <div class="weather-card" id="weatherCard">
-        <div class="weather-area-selector">
-            <button class="area-toggle-btn" onclick="toggleAreaSelector()">🗾 地域を変更 ▼</button>
-            <div class="area-selector" id="areaSelector">
-                <div class="region-group"><div class="region-name">北海道・東北</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('016000','北海道')">北海道</button><button class="pref-btn" onclick="changeArea('020000','青森')">青森</button><button class="pref-btn" onclick="changeArea('030000','岩手')">岩手</button><button class="pref-btn" onclick="changeArea('040000','宮城')">宮城</button><button class="pref-btn" onclick="changeArea('050000','秋田')">秋田</button><button class="pref-btn" onclick="changeArea('060000','山形')">山形</button><button class="pref-btn" onclick="changeArea('070000','福島')">福島</button></div></div><div class="region-group"><div class="region-name">関東</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('080000','茨城')">茨城</button><button class="pref-btn" onclick="changeArea('090000','栃木')">栃木</button><button class="pref-btn" onclick="changeArea('100000','群馬')">群馬</button><button class="pref-btn" onclick="changeArea('110000','埼玉')">埼玉</button><button class="pref-btn" onclick="changeArea('120000','千葉')">千葉</button><button class="pref-btn" onclick="changeArea('130000','東京')">東京</button><button class="pref-btn" onclick="changeArea('140000','神奈川')">神奈川</button></div></div><div class="region-group"><div class="region-name">中部</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('150000','新潟')">新潟</button><button class="pref-btn" onclick="changeArea('160000','富山')">富山</button><button class="pref-btn" onclick="changeArea('170000','石川')">石川</button><button class="pref-btn" onclick="changeArea('180000','福井')">福井</button><button class="pref-btn" onclick="changeArea('190000','山梨')">山梨</button><button class="pref-btn" onclick="changeArea('200000','長野')">長野</button><button class="pref-btn" onclick="changeArea('210000','岐阜')">岐阜</button><button class="pref-btn" onclick="changeArea('220000','静岡')">静岡</button><button class="pref-btn" onclick="changeArea('230000','愛知')">愛知</button></div></div><div class="region-group"><div class="region-name">近畿</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('240000','三重')">三重</button><button class="pref-btn" onclick="changeArea('250000','滋賀')">滋賀</button><button class="pref-btn" onclick="changeArea('260000','京都')">京都</button><button class="pref-btn" onclick="changeArea('270000','大阪')">大阪</button><button class="pref-btn" onclick="changeArea('280000','兵庫')">兵庫</button><button class="pref-btn" onclick="changeArea('290000','奈良')">奈良</button><button class="pref-btn" onclick="changeArea('300000','和歌山')">和歌山</button></div></div><div class="region-group"><div class="region-name">中国・四国</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('310000','鳥取')">鳥取</button><button class="pref-btn" onclick="changeArea('320000','島根')">島根</button><button class="pref-btn" onclick="changeArea('330000','岡山')">岡山</button><button class="pref-btn" onclick="changeArea('340000','広島')">広島</button><button class="pref-btn" onclick="changeArea('350000','山口')">山口</button><button class="pref-btn" onclick="changeArea('360000','徳島')">徳島</button><button class="pref-btn" onclick="changeArea('370000','香川')">香川</button><button class="pref-btn" onclick="changeArea('380000','愛媛')">愛媛</button><button class="pref-btn" onclick="changeArea('390000','高知')">高知</button></div></div><div class="region-group"><div class="region-name">九州・沖縄</div><div class="pref-list"><button class="pref-btn" onclick="changeArea('400000','福岡')">福岡</button><button class="pref-btn" onclick="changeArea('410000','佐賀')">佐賀</button><button class="pref-btn" onclick="changeArea('420000','長崎')">長崎</button><button class="pref-btn" onclick="changeArea('430000','熊本')">熊本</button><button class="pref-btn" onclick="changeArea('440000','大分')">大分</button><button class="pref-btn" onclick="changeArea('450000','宮崎')">宮崎</button><button class="pref-btn" onclick="changeArea('460100','鹿児島')">鹿児島</button><button class="pref-btn" onclick="changeArea('471000','沖縄')">沖縄</button></div></div>
-            </div>
-        </div>
-        <div id="weatherContent">
-            <div class="weather-top">
-                <div class="weather-main">
-                    <div class="weather-icon-big">⛅</div>
-                    <div class="weather-info">
-                        <div class="weather-area">東京地方の天気</div>
-                        <div class="weather-today">くもり　所により　雨</div>
-                        <div class="weather-temp">🌡️ 最高 <span class="temp-max">27℃</span> / 最低 <span class="temp-min">21℃</span></div>
-                    </div>
-                </div>
-                <div class="weather-tomorrow">
-                    <div class="tomorrow-label">明日</div>
-                    <div class="tomorrow-icon">⛅</div>
-                    <div class="tomorrow-text">くもり　所により</div>
-                </div>
-            </div>
-            <div class="weather-toggle" onclick="toggleHourly()">時間帯別を見る ▼</div>
-            <div class="hourly-wrap" id="hourlyWrap">
-                <div class="hourly-list"><div class="hourly-item"><div class="hourly-time">2時</div><div class="hourly-icon">⛅</div></div><div class="hourly-item"><div class="hourly-time">9時</div><div class="hourly-icon">⛅</div></div><div class="hourly-item"><div class="hourly-time">9時</div><div class="hourly-icon">⛅</div></div></div>
-            </div>
-        </div>
-    </div>
+        <div class="weather-error">天気情報を取得できませんでした</div>
     </section>
         <section id="ニュース">
             <div class="section-title">ニュース</div>
             <div class="grid">
             <div class="card" id="card_ニュース_0">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/2/d/2de81_1462_107b2183_cb4d55c9.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31734315/" target="_blank" rel="noopener">ハラスメント報道の佐藤二朗に「降板通達」フジテレビの対応に批判の声</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/8/c/8cb82_1591_5273db10_940b02e0.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736165/" target="_blank" rel="noopener">職場恋愛をした男性、相手の口が異常に軽く社内で性生活を暴露される</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">申し訳ありません。記事へのリンクのみ提供されており、具体的な内容が含まれていないため、要約することができません。
-
-ニュースの具体的な内容（何があったのか、どのようなハラスメント報道なのか、フジテレビがどのような対応をしたのか、批判の内容など）を教えていただければ、小学生にもわかる言葉で要約いたします。</p>
+                    <p class="card-summary">ある40代の男性が職場の後輩女性と付き合うことになりましたが、その女性が秘密にしておくべきことを他の女性たちにすぐに話してしまいました。その結果、二人の親密なことまで職場全体に知られてしまい、男性はとても困ってしまいました。男性はちょうど別の部署に移る話が出たときに、すぐにそれを受けることにして、職場を離れることにしたということです。職場での恋愛は、このように秘密が守られないと、働きづらくなってしまう危険があります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -134,10 +103,10 @@
                 </div>
             </div>
             <div class="card" id="card_ニュース_1">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/9/5/956fe_760_2465613_20260624_115226_size640wh_53299759.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31734177/" target="_blank" rel="noopener">サーティワンが「どうぶつの森」コラボで謝罪 多くの店舗で品切れ</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/b/5/b59a9_929_c341e79d_6d993d4c.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736686/" target="_blank" rel="noopener">メッシ、カーボベルデ戦で先制ゴール…W杯通算20点目挙げる 北中米W杯</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">サーティワンというアイスクリーム屋さんが、人気ゲーム「どうぶつの森」とのコラボレーションを始めました。ところが、欲しい人がたくさん押し寄せたため、「どうぶつの森 スペシャルセット」という特別なセットがほとんどのお店で売り切れになってしまいました。サーティワンは申し訳ないという気持ちを込めて、公式ウェブサイトで謝罪文を出し、他の商品も在庫がなくなっていることを知らせました。</p>
+                    <p class="card-summary">サッカーの世界選手権（W杯）でメッシという有名選手が、すごい記録をたくさん作っています。メッシはカーボベルデ戦でゴールを決めて、今大会で7点目となり、得点数で1番になりました。さらに、W杯での通算得点が20点となり、これは誰よりも多い歴代最多記録です。メッシのこの活躍により、アルゼンチンチームが試合に勝ちやすくなり、W杯での優勝に近づいています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -145,12 +114,12 @@
                 </div>
             </div>
             <div class="card" id="card_ニュース_2">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/4/d/4d5f4_1581_1cf21b24_5582518e.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31734134/" target="_blank" rel="noopener">椎名林檎と成田悠輔のホテル密会報道 以前に見せていた椎名への崇拝ぶり</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/1/d/1d95d_1212_fff82c30_b9124f83.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736175/" target="_blank" rel="noopener">佐藤二朗にスピンオフドラマ降板を要請…文春報道からの急転対応で物議</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">申し訳ございませんが、記事の内容にアクセスできないため、要約することができません。
+                    <p class="card-summary">申し訳ありませんが、記事の内容を直接確認することができないため、正確な要約ができません。
 
-タイトルと記事へのリンクのみでは、実際のニュース内容が見えていないため、正確な要約をお作りできません。記事の本文をご提供いただければ、小学生にもわかりやすい言葉で3〜4文の要約をお作りします。</p>
+もし記事の内容をコピー&ペーストしていただければ、小学生にもわかるように3〜4文で要約させていただきます。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ニュース</span>
@@ -162,10 +131,10 @@
             <div class="section-title">テクノロジー</div>
             <div class="grid">
             <div class="card" id="card_テクノロジー_0">
-                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/03/cover_news139.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/03/news139.html" target="_blank" rel="noopener">講談社、「はたらく細胞」著者に謝罪　監修体制や作画環境「適切に履行できず」　本人のX投稿受け</a></h3>
+                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/04/cover_news019.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/04/news019.html" target="_blank" rel="noopener">GoPro復活ののろしか　“シネマ”を打ち出した「MISSION 1 PRO」レビュー</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">大人気漫画「はたらく細胞」の作者・清水茜さんが、連載中に出版社の講談社から十分なサポートを受けられなかったことをネットで発表しました。講談社は、医学の専門家による監修や、作画をしやすい環境づくりなどの約束を守れなかったことを認めて、作者さんに謝罪しました。このニュースは、漫画家が安心して作品を作るためには、出版社がしっかりとサポートする責任があることを示しており、ほかの出版社も同じような問題がないか見直すきっかけになると考えられます。</p>
+                    <p class="card-summary">GoProという小さいカメラ会社が、新しい「MISSION 1 PRO」というカメラを出しました。このカメラは、スポーツなどを撮るだけでなく、映画のような綺麗な動画も撮れるようになっています。GoProは最近、他の会社との競争に負けたり、いろいろな問題があったりして大変でしたが、この新しいカメラが会社を元気にするきっかけになるかもしれません。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -173,10 +142,10 @@
                 </div>
             </div>
             <div class="card" id="card_テクノロジー_1">
-                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/03/cover_news136.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/03/news136.html" target="_blank" rel="noopener">ゆうパック、平均約10％値上げ　ゆうパケットは一律360円に　10月から</a></h3>
+                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/03/cover_news139.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/03/news139.html" target="_blank" rel="noopener">講談社、「はたらく細胞」著者に謝罪　監修体制や作画環境「適切に履行できず」　本人のX投稿受け</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">日本郵便が10月から、荷物を送る「ゆうパック」と「ゆうパケット」という2つのサービスの値段を上げることになりました。ゆうパックは平均して約10％値段が高くなり、ゆうパケットはどんな厚さでも全部360円の同じ値段になります。これは、人件費や燃料代などの経費が増えたからです。この値上げにより、みんなが荷物を送るときにかかるお金が今よりも多くなってしまいます。</p>
+                    <p class="card-summary">漫画「はたらく細胞」の作者・清水茜さんが、連載中に編集部から十分なサポートを受けられなかったことをSNSで話したため、出版社の講談社が謝罪しました。医学的な監修や絵を描くための環境を、きちんと整えてあげられなかったということです。この出来事は、漫画家などの仕事がどのような環境で行われているかを考えるきっかけになり、今後、出版社がクリエイターをもっと大切にすることの重要性が注目されました。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -184,10 +153,10 @@
                 </div>
             </div>
             <div class="card" id="card_テクノロジー_2">
-                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/03/cover_news128.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/03/news128.html" target="_blank" rel="noopener">防衛省のLUUP導入で小泉大臣がコメント　「情報保全上の問題ない」</a></h3>
+                <div class="card-img"><img src="https://image.itmedia.co.jp/news/articles/2607/03/cover_news136.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://www.itmedia.co.jp/news/articles/2607/03/news136.html" target="_blank" rel="noopener">ゆうパック、平均約10％値上げ　ゆうパケットは一律360円に　10月から</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">防衛省という日本の防衛に関わる大切な場所に、電動スクーターをシェアして乗るサービス「LUUP」が導入されることになりました。インターネットでは、このサービスが位置情報を記録するので、防衛省の大事な情報が漏れるのではないかという心配の声が広がっていました。小泉防衛大臣は、このサービスを導入しても情報が安全に守られるので問題ないと説明しました。防衛省は職員の移動を楽にするためにこのサービスを使うことにしたのです。</p>
+                    <p class="card-summary">日本郵便が、荷物を送るときに使う「ゆうパック」と「ゆうパケット」の値段を10月から上げることにしました。ゆうパックは平均して約10％値段が高くなります。ゆうパケットは今まで厚さによって値段が違いましたが、これからは全部360円で同じ値段になります。この値上げは、配達の人の給料を上げたり、ガソリン代が高くなったりしているため必要になったと考えられます。これによって、荷物を送る人たちは今より多くのお金がかかるようになります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">テクノロジー</span>
@@ -199,10 +168,10 @@
             <div class="section-title">スポーツ</div>
             <div class="grid">
             <div class="card" id="card_スポーツ_0">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/5/b/5bf09_929_dc7f8a92_c28fc114.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31728596/" target="_blank" rel="noopener">森保ジャパンMF堂安律 第1子誕生していた…Instagramで公表</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/b/5/b59a9_929_c341e79d_6d993d4c.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736686/" target="_blank" rel="noopener">メッシ、カーボベルデ戦で先制ゴール…W杯通算20点目挙げる 北中米W杯</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">サッカー日本代表の堂安律選手に、女の赤ちゃんが生まれました。堂安選手はインスタグラムで、赤ちゃんが日本代表のユニフォームを着た写真を公開して、喜びを伝えました。妻の明松美玖さんへ感謝の気持ちも書きました。これにより、多くのファンが堂安選手の家族の幸せを応援できるようになりました。</p>
+                    <p class="card-summary">サッカーのワールドカップ北中米大会でメッシ選手が素晴らしい成績を出しています。メッシ選手はカーボベルデ戦でゴールを決め、ワールドカップ全体での得点数が20点になり、史上最多記録を更新しました。このことでメッシ選手はワールドカップで最も多くゴールを決めた選手として歴史に名前が残ります。メッシ選手の活躍はアルゼンチンチームの優勝に向けて、とても大切な力になっています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">スポーツ</span>
@@ -210,10 +179,10 @@
                 </div>
             </div>
             <div class="card" id="card_スポーツ_1">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/0/7/072f5_929_6eb04cf5_f9d291cc.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31733432/" target="_blank" rel="noopener">J1町田が浦和MF松尾佑介獲得をサプライズ発表 デュークも豪州から復帰</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/9/e/9e00f_1655_869decc3_5a5554f9.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736333/" target="_blank" rel="noopener">韓国代表は苦言を呈するだけ?状況は苛烈化、韓国メディアが指摘</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">日本のサッカーJ1リーグの町田というチームが、浦和というチームのMF松尾佑介という選手と、昔オーストラリア代表だったデュークというFWの選手を新しく迎え入れることを発表しました。この発表は試合の前に開かれたファンとの集まりで突然行われたので、会場にいたファンたちはとても驚いて喜んで大きな声を出しました。新しい選手が加わることで、町田のチームは今シーズンもっと強くなる可能性があります。</p>
+                    <p class="card-summary">ワールドカップの後、日本と韓国のサッカーチームの考え方が違うことが注目されています。日本は昔活躍した選手たちの経験を大事にして、チームを強くするために使っていますが、韓国は昔の選手たちが悪いところを言うだけで、あまり前に進もうとしていません。韓国のニュースは、このままだとサッカーが弱くなってしまう危ないやり方だと警告しています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">スポーツ</span>
@@ -221,10 +190,10 @@
                 </div>
             </div>
             <div class="card" id="card_スポーツ_2">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/1/9/19519_1429_f3833401_75034668.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31732537/" target="_blank" rel="noopener">「日本はなんというチームか」伊大手紙が森保ジャパンを激賞</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/2/f/2f561_929_d20a480f_70bf72dd.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736204/" target="_blank" rel="noopener">エジプト代表、初の16強入り…PK戦もつれ込む死闘制した 北中米W杯</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">日本代表がワールドカップでブラジルに負けてしまいましたが、イタリアの大きな新聞が日本チームをほめました。この新聞は「日本チームはすごく強い価値がある」と言い、ルールを守る姿勢やサポーターの応援の仕方も含めて、日本チームが良い印象を世界に残したとほめています。つまり、試合には負けましたが、日本の選手たちの頑張りや態度がとても良かったので、世界中から評価されているということです。</p>
+                    <p class="card-summary">サッカーのワールドカップで、エジプトという国のチームが初めて決勝トーナメント（強いチームだけが残る大事な試合）で勝つことができました。オーストラリアとの試合は同じ点数で終わったため、PKという蹴り比べで決着がつき、エジプトが勝ちました。これはエジプトの国にとって大事な成績で、これからもっと先の試合に進むことができるようになったことが重要です。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">スポーツ</span>
@@ -236,12 +205,10 @@
             <div class="section-title">エンタメ</div>
             <div class="grid">
             <div class="card" id="card_エンタメ_0">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/0/3/03d51_929_60aeaf24_4cd66a8a.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31733079/" target="_blank" rel="noopener">生田斗真が山下智久との2ショットを突如投稿「胸熱すぎる」大反響</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/4/0/40df6_1223_a7dde55b64471a2bab724a555dc153b6.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31736531/" target="_blank" rel="noopener">「THE MUSIC DAY 2026」全出演アーティストのタイムテーブル発表</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">申し訳ございません。記事の内容にアクセスできないため、詳しい情報を確認することができません。
-
-もし記事の内容をコピー&ペーストしていただければ、小学生にもわかるように要約させていただきます。</p>
+                    <p class="card-summary">日本テレビの音楽番組「THE MUSIC DAY 2026」の出演アーティストと放送時間が決まりました。65組のアーティストが出演し、いろいろな歌手が一緒に歌う「シャッフルメドレー」は夜の7時台と8時台に放送される予定です。司会者の櫻井翔は14年連続で担当することになり、今年のテーマは「音楽の物語」です。この番組は毎年多くの人が見る大きなイベントなので、好きなアーティストがいつ出演するかみんなが楽しみにしています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -249,10 +216,12 @@
                 </div>
             </div>
             <div class="card" id="card_エンタメ_1">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/5/2/5237e_1585_d774b14abf225e3b5b5054c9ad69df1c.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31733549/" target="_blank" rel="noopener">野村周平がSNSナンパの実態に言及「男だけじゃねえから！！ 」</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/7/d/7dfb7_749_1ccfbd03_eb797814.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31733027/" target="_blank" rel="noopener">講談社が「はたらく細胞」著者・清水茜氏に謝罪「適切に履行できず」</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">俳優の野村周平さんがテレビ番組で、SNSで知らない人からのナンパメッセージが男性にもたくさん来ることを紹介しました。野村さんは「男だけじゃなく、男性にもナンパが来るんだ」と驚いたことを面白おかしく話して、視聴者を笑わせました。でも最後には、そういうメッセージをもらうのは実は嬉しいと本当の気持ちを打ち明けました。</p>
+                    <p class="card-summary"># 申し訳ありません。記事のリンクのみで具体的な内容が見えないため、要約することができません。
+
+記事の本文の内容をコピー&ペーストしていただければ、小学生にもわかりやすく3〜4文で要約させていただきます。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -260,12 +229,10 @@
                 </div>
             </div>
             <div class="card" id="card_エンタメ_2">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/5/8/58327_1212_18994628_b9124f83.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31730639/" target="_blank" rel="noopener">佐藤二朗が「踊る大捜査線 」スピンオフ降板 フジテレビが緊急社員総会へ</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/1/d/1df73_929_d33656bb_099062e5.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31733791/" target="_blank" rel="noopener">YouTuberヒカルが志らくに入門「立川さぎ志」で8月明治座デビュー</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">申し訳ございませんが、提供いただいたリンクにアクセスすることができないため、記事の詳しい内容を確認することができません。
-
-リンク先の記事の本文をコピー&ペーストしていただければ、小学生でもわかるように3〜4文で要約させていただきます。</p>
+                    <p class="card-summary">YouTuberのヒカルが、落語家の立川志らくに弟子入りすることになりました。ヒカルは「立川さぎ志」という芸名で、8月3日に東京の明治座という劇場で初めての落語を演じます。志らくは「才能のある若い人の頑張ろうという気持ちを応援するのが大人の役目」と話しており、YouTuberが伝統的な落語の世界に挑戦することで、多くの若い人が落語に興味を持つようになる可能性があります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">エンタメ</span>
@@ -280,7 +247,7 @@
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/07/20260703-453249-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://automaton-media.com/articles/newsjp/20260703-453249/" target="_blank" rel="noopener">「不評じゃないけど」と言い張る不評レビューに、開発者が悲痛な叫び。“好きだけど不評”の見過ごせない重み</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">ゲーム販売サイトの「Steam」で、あるゲームのユーザーが「悪く言うつもりじゃないけど」と言いながら、そのゲームを悪く評価するレビューを書きました。このレビューを見たゲーム開発者が、「本当は悪く言いたいんでしょ」と悲しい声を上げて話題になっています。このようなレビューが増えると、ゲームが本当に面白いのか悪いのか、正しく判断できなくなってしまい、開発者のやる気もなくなってしまう大事な問題です。</p>
+                    <p class="card-summary">ゲーム販売サイトのSteamで、あるユーザーが「悪く言うつもりはないけど」と言いながら、そのゲームの悪い点をたくさん書いて評価を下げるレビューを投稿しました。するとゲームを作った開発者が「そういうやり方は悲しい」と困った声をあげて、インターネットで話題になってしまいました。このことで、言葉では「悪く言うつもりじゃない」と言っていても、実際には悪い評価をつけるレビューの影響の大きさが改めて注目されるようになりました。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -291,7 +258,7 @@
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/07/20260703-453240-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://automaton-media.com/articles/newsjp/20260703-453240/" target="_blank" rel="noopener">無料スマホゲーム開発者「広告費に月1600万円以上かけてる」、リアルなお金周りを公開。“作るだけ”では生き残れない</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">スマホゲームの開発者が、ゲームを作るだけではなく、毎月1600万円以上のお金を広告に使ってゲームを知ってもらうために頑張っていることを明かしました。昔はゲームを作るだけで売れていましたが、今はたくさんのゲームがあるので、広告にお金をかけないと誰も遊んでくれないようになったのです。このことから、ゲーム開発者は作ることだけでなく、自分たちのゲームをみんなに知ってもらうために、どうお金を使うかがとても大事だということがわかります。</p>
+                    <p class="card-summary">スマホゲームを無料で遊べるようにしている会社が、毎月1600万円以上のお金を使って広告を出していることを明かしました。これは、ゲームをたくさんの人に知ってもらうためにとても大切だからです。昔はゲームを作るだけで売れていましたが、今はゲームが増えすぎて、広告にたくさんのお金をかけないと誰にも遊んでもらえなくなってしまいました。だから、スマホゲーム会社が生き残るには、いい作品を作るだけでなく、広告にたくさんのお金を使う必要があります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -302,7 +269,7 @@
                 <div class="card-img"><img src="https://automaton-media.com/wp-content/uploads/2026/07/20260703-453227-header.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://automaton-media.com/articles/newsjp/20260703-453227/" target="_blank" rel="noopener">シリーズ一挙復刻『がんばれゴエモン大集合！』では、Nintendo Switch版以外で“おばあちゃんのセリフ”に異変。大人の事情配慮おばあちゃん</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">昔のゲーム「がんばれゴエモン」がいろいろなゲーム機で新しく遊べるようになったのですが、Nintendo Switch版とそれ以外のゲーム機版では、おばあちゃんのセリフや絵が少し変わっていることがわかりました。これは、昔のゲームの表現が今の時代に合わないかもしれないという大人の事情で、内容を変えたものです。このことでゲームファンたちが、昔のゲームをどう直すかについて話し合うようになりました。</p>
+                    <p class="card-summary">昔のゲーム「がんばれゴエモン」が新しく復刻されて、いろいろなゲーム機で遊べるようになりました。ところが、Nintendo Switchではおばあちゃんのセリフがそのままなのに、他のゲーム機ではセリフが変わってしまっているんです。これは、昔のゲームの内容が今の時代に合わないと考えた大人の事情によって、言葉やキャラクターの見た目を変えたからです。同じゲームなのにゲーム機によってセリフが違うので、ファンたちはこの変更について話題にしています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">ゲーム</span>
@@ -314,10 +281,10 @@
             <div class="section-title">アニメ</div>
             <div class="grid">
             <div class="card" id="card_アニメ_0">
-                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/900227.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://animeanime.jp/article/2026/07/03/100670.html" target="_blank" rel="noopener">ちいかわ、ハチワレたちのお顔がキュート♪ 「ちいかわ」コロッとかわいいマカロン型コスメが登場！ 実用性も兼ね備えたホイップ風マグネットも</a></h3>
+                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/900378.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://animeanime.jp/article/2026/07/04/100673.html" target="_blank" rel="noopener">「劇場版 俺だけレベルアップな件 -Beyond the System」制作決定 特報＆ティザービジュアル公開</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">「ちいかわ」というかわいいキャラクターのコスメが新しく売られることになりました。マカロン（お菓子）の形をした、くるくる回して使う化粧品や、ホイップクリームみたいなマグネット式のコスメが登場します。これらの商品はかわいいだけでなく、ちゃんと化粧品として使えるので、ちいかわが好きな人たちはとてもよろこぶと思われます。</p>
+                    <p class="card-summary">人気のアニメ「俺だけレベルアップな件」が映画化することが決まりました。このアニメは世界中でたくさんのファンがいる作品なので、映画化されることでもっと多くの人が楽しめるようになります。映画では、テレビアニメでは見られない新しいストーリーや迫力のある映像が見られると期待されています。ファンたちは映画の公開をとても楽しみにしています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -325,10 +292,10 @@
                 </div>
             </div>
             <div class="card" id="card_アニメ_1">
-                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/900219.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://animeanime.jp/article/2026/07/03/100669.html" target="_blank" rel="noopener">映画「鬼太郎誕生 ゲゲゲの謎」水木&鬼太郎の父が登場！ 映画モチーフアイテムも手に入るゲーム「妖怪横丁」コラボ開催</a></h3>
+                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/900239.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://animeanime.jp/article/2026/07/04/100672.html" target="_blank" rel="noopener">「運命の巻戻士」27年4月アニメ放送決定！小村将、内山昂輝、天崎滉平、上田麗奈らメインキャスト公開♪ティザーPV＆新ビジュアルも</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">「ゲゲゲの鬼太郎」の新しい映画が公開されるのに合わせて、スマートフォンのゲーム「妖怪横丁」とコラボレーションが始まりました。このコラボでは、映画に登場する水木しげるさんや鬼太郎のお父さんなど、普通のゲームには出ていないキャラクターが使えるようになります。映画を見た人も、ゲームをしている人も、両方楽しめるようにすることで、もっと多くの人に「鬼太郎」に興味を持ってもらおうという作戦です。</p>
+                    <p class="card-summary">「運命の巻戻士」というアニメが2027年4月から放送されることが決まりました。小村将さん、内山昂輝さん、天崎滉平さん、上田麗奈さんなど、有名な声優さんたちがキャラクターの声を担当することが発表されました。このアニメは、多くのファンが楽しみにしていた作品なので、放送開始が決まったことで、アニメ業界が盛り上がっています。予告映像と新しいキャラクターの絵も公開されたので、ファンたちはこれからの放送をますます楽しみにしています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -336,10 +303,10 @@
                 </div>
             </div>
             <div class="card" id="card_アニメ_2">
-                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/899899.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://animeanime.jp/article/2026/07/03/100668.html" target="_blank" rel="noopener">「サンリオ」“はぴだんぶい”がサブウェイと初コラボ！ 店員姿のポチャッコ、ばつ丸たちが可愛い限定オリジナルグッズがもらえる！</a></h3>
+                <div class="card-img"><img src="https://animeanime.jp/imgs/ogp_f/900374.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://animeanime.jp/article/2026/07/04/100671.html" target="_blank" rel="noopener">青春マンガ「Here U Are」TVアニメ化決定！井上雄貴＆鈴木崚汰がメインキャストに＆音楽は清塚信也が担当</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">サンリオというキャラクターの会社が、サブウェイというサンドイッチのお店と初めてコラボして、ポチャッコやばつ丸などの可愛いキャラクターが店員さんの服を着た限定グッズをもらえるキャンペーンを始めました。このキャンペーンで、サブウェイのお店がより楽しくなり、グッズが好きな人たちがサブウェイに行きたくなるようになります。サンリオのファンもサブウェイのファンも、両方が喜ぶ面白い企画なので、このように色々な会社が協力することで、お店をもっと多くの人に知ってもらえます。</p>
+                    <p class="card-summary">人気の青春マンガ「Here U Are」がアニメになることが決まりました。このマンガは友情や恋愛などの心温まる物語で、たくさんの人に愛されています。アニメでは有名な声優さんたちがキャラクターの声をつけ、音楽は有名なピアニストの清塚信也さんが担当します。このアニメ化により、このマンガのファンがさらに増えたり、映像で物語が動く様子を楽しむことができるようになります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">アニメ</span>
@@ -351,10 +318,12 @@
             <div class="section-title">経済</div>
             <div class="grid">
             <div class="card" id="card_経済_0">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/6/9/6974d_1110_76e8cbad_ea5fc169.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31733350/" target="_blank" rel="noopener">昨年度の税収は84兆円超で過去最高更新 決算剰余金も約2兆6000億円に</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/6/5/65381576bcb48ef3545e116d4add660e.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31631634/" target="_blank" rel="noopener">Amazon音楽聞き放題が4カ月無料</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">去年、日本の政府が集めたお金（税金）が84兆円を超えて、今までで一番多くなりました。これは会社の売上がたくさん増えたことや、働いている人が増えたことが理由です。政府が予定していたお金よりも約2兆6000億円も余りました。このお金は、これからの日本をもっと良くするために、学校や病院、道路などを直したり、新しい事業を始めたりするのに使われることが期待されています。</p>
+                    <p class="card-summary">申し訳ございませんが、記事の詳細な内容が表示されていないため、正確な要約ができません。リンク先の記事内容をテキストとしてお教えいただければ、小学生にもわかりやすく要約させていただきます。
+
+ただし、タイトルから推測すると：Amazonという大きな会社が、音楽をたくさん聞けるサービスを4ヶ月間無料でお試しできるキャンペーンをしているということのようです。このようなお得なキャンペーンは、より多くの人にサービスを使ってもらうために行われています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -365,7 +334,7 @@
                 <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/o/g/ogp_image_31731782_577b7872c928.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://news.livedoor.com/article/detail/31731782/" target="_blank" rel="noopener">日本郵便の「ゆうパック」10月1日から2～40％程度値上げへ</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">日本郵便が、荷物を送る「ゆうパック」というサービスの料金を10月1日から上げることを決めました。値上げの幅は2～40％で、荷物の大きさや送る距離によって値上げの程度が変わります。値上げの理由は、ガソリン代や働く人の給料が上がったため、今までの料金では経営が難しくなったからです。この値上げにより、荷物を送る人たちの負担が増えることになり、オンラインショッピングで送料を払う時に、今までより多くのお金がかかるようになります。</p>
+                    <p class="card-summary">日本郵便が10月1日から、荷物を送る「ゆうパック」という配送サービスの料金を2～40％上げることを決めました。燃料費が高くなったことや、働く人の給料を上げる必要があることが理由です。これにより、みんなが荷物を送るときに今までより多くのお金を払わなければならなくなります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -376,7 +345,7 @@
                 <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/a/1/a1562_1675_00977978ed14b9bcda3a45893cafea52.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://news.livedoor.com/article/detail/31730977/" target="_blank" rel="noopener">キオクシアは大容量で低消費電力の新型メモリーの出荷を開始したと発表</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">キオクシアという会社が、新しい種類のメモリーを作りました。このメモリーはたくさんのデータを入れることができるのに、電気もあまり使わないという優れた特徴があります。スマートフォンやパソコンなどの機械がより速く、より長く使えるようになるので、とても重要な発明です。この新しいメモリーによって、世界中の人たちが使う電子機器がもっと便利で、電気代も安くなる可能性があります。</p>
+                    <p class="card-summary">キオクシアという日本の会社が、たくさんのデータを保存できるのに、電気をあまり使わない新しいメモリーを作りました。このメモリーは、スマートフォンやパソコンなどの電子機器にたくさん情報を入れておくことができます。電気をあまり使わないので、スマートフォンのバッテリーが長く持つようになったり、電気代が安くなったりする可能性があります。この新しい技術により、世界中のたくさんの人たちがより便利で経済的な電子機器を使えるようになるでしょう。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">経済</span>
@@ -391,7 +360,7 @@
                 <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/4/8/48267_1845_b04866b3_1dfe166c.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://news.livedoor.com/article/detail/31732432/" target="_blank" rel="noopener">意外と知らない北朝鮮ミサイルの真実「何を標的にしたのか」に焦点</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">北朝鮮がミサイルの試験をしましたが、専門家が調べたところ、電気やダムなどの大事な施設を壊すことを想定した訓練だったことがわかりました。これは戦い方を変えようとしている北朝鮮の意図を示しています。北朝�aventoこれは日本にとって危険な可能性があるため、日本がこの問題に関係のある「当事者」だと北朝鮮が考えていることが重要です。こうした動きを理解することで、日本は自分たちの安全を守るための準備ができるようになります。</p>
+                    <p class="card-summary">北朝鮮がミサイルの試験をしていますが、その試験がどんな目的でやられているのかを専門家が説明しました。北朝鮮は電気や通信などの大事な施設を壊すことを想定した試験をしていて、これは戦い方を変えようとしていることがわかります。また、北朝鮮は日本のことを敵として考えているので、日本も気をつけておく必要があります。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
@@ -402,7 +371,7 @@
                 <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/o/g/ogp_image_31730303_cc6b10501771.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
                 <h3><a href="https://news.livedoor.com/article/detail/31730303/" target="_blank" rel="noopener">シリアの首都ダマスカスのカフェで爆発 およそ30人が死傷</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">シリアという国の首都ダマスカスのカフェで爆弾が爆発して、約30人の人がけがをしたり亡くなったりしました。このカフェは多くの人が集まる場所だったので、突然の爆発で大勢が被害を受けてしまいました。シリアは昔から戦争や紛争が多い国で、今回の爆発も人々の生活や安全に大きな悪い影響を与えています。このような事件が起きると、国の中で不安や怖さが広がってしまいます。</p>
+                    <p class="card-summary">シリアという国の首都ダマスカスのカフェで爆弾が爆発して、約30人の人が死んだりけがをしました。このカフェはたくさんの人が集まる場所だったので、一度にたくさんの人が被害を受けてしまいました。シリアは昔から争いが多い国なので、このような事件が起こると国全体が不安になり、人々の生活や安全がさらに心配になってしまいます。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
@@ -410,10 +379,10 @@
                 </div>
             </div>
             <div class="card" id="card_国際_2">
-                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/e/5/e55c4_1845_240312ce_a63972dd.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
-                <h3><a href="https://news.livedoor.com/article/detail/31729977/" target="_blank" rel="noopener">崩壊が進むポルトガル その元凶は外国人の優遇と中国との蜜月か</a></h3>
+                <div class="card-img"><img src="https://image.news.livedoor.com/newsimage/stf/6/0/606e8_1110_cd3cd698_287c3050.jpg" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+                <h3><a href="https://news.livedoor.com/article/detail/31735490/" target="_blank" rel="noopener">ベネズエラ大地震 死者は2595人に…1万2000人以上の負傷者も</a></h3>
                 <div class="card-summary-wrap">
-                    <p class="card-summary">申し訳ございませんが、記事の内容が見えない状態では要約することができません。記事本文をテキストで貼り付けていただければ、小学生にもわかるように3〜4文で要約させていただきます。</p>
+                    <p class="card-summary">ベネズエラという国で大きな地震が起きて、2595人の人が亡くなってしまいました。さらに1万2000人以上の人がけがをしました。この地震は建物をこわしたり、人々の生活に大きな被害をもたらしたので、とても大変な災害です。今、ベネズエラの人たちは病院で治療を受けたり、こわれた家を直したりするなど、地震から立ち直るために一生懸命がんばっています。</p>
                 </div>
                 <div class="card-footer">
                     <span class="tag">国際</span>
