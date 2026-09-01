@@ -321,6 +321,13 @@ def generate_html(all_articles, weather=None):
     html = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-04C0DRMF45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-04C0DRMF45');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>速見ニュース | HAYAMI NEWS</title>
