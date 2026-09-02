@@ -79,6 +79,17 @@ WEATHER_ICONS = {
     "雷": "⚡", "暴風": "🌀",
 }
 
+# ------------------------------------------------------------
+# トリビア・雑学 連携設定 (追加)
+# ------------------------------------------------------------
+# hee(YouTube自動投稿)側の STEP4 が trivia_articles.json を
+# このリポジトリ直下に自動で書き込む。ここではそれを読み込んで
+# 「💡トリビア・雑学」カテゴリと「💡今日のトリビア」を表示するだけ。
+TRIVIA_ARTICLES_FILE = "trivia_articles.json"
+TRIVIA_CATEGORY_NAME = "トリビア・雑学"
+TRIVIA_CARDS_LIMIT = 6
+
+
 def get_weather_icon(text):
     for key, icon in WEATHER_ICONS.items():
         if key in text:
@@ -282,15 +293,105 @@ def generate_weather_html(weather):
         </div>
     </div>"""
 
-def generate_html(all_articles, weather=None):
+
+# ------------------------------------------------------------
+# トリビア・雑学 連携用の関数 (追加)
+# ------------------------------------------------------------
+
+def load_trivia_articles():
+    """
+    hee側のSTEP4がこのリポジトリ直下に書き込む trivia_articles.json を読む。
+    ファイルが無い(まだ1本もトリビア記事が無い)場合は空リストを返す。
+    """
+    if not os.path.exists(TRIVIA_ARTICLES_FILE):
+        return []
+    try:
+        with open(TRIVIA_ARTICLES_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("articles", [])
+    except Exception as e:
+        print(f"trivia_articles.json 読み込みエラー: {e}")
+        return []
+
+
+def generate_trivia_section_html(trivia_articles):
+    """
+    既存の他カテゴリと同じ .card / .grid デザインを流用した
+    「💡トリビア・雑学」セクションを作る。
+    """
+    if not trivia_articles:
+        return ""
+
+    cards_html = ""
+    for article in trivia_articles[:TRIVIA_CARDS_LIMIT]:
+        slug = article["slug"]
+        img_html = (
+            f'<div class="card-img"><img src="trivia/images/{slug}.png" alt="" '
+            f'loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>'
+        )
+        cards_html += f"""
+        <div class="card">
+            {img_html}
+            <h3><a href="trivia/{slug}.html">{article['title']}</a></h3>
+            <div class="card-summary-wrap open">
+                <p class="card-summary">{article['summary']}</p>
+            </div>
+            <div class="card-footer">
+                <span class="tag">💡 トリビア</span>
+            </div>
+        </div>"""
+
+    return f"""
+    <section id="{TRIVIA_CATEGORY_NAME}">
+        <div class="section-title">💡 トリビア・雑学</div>
+        <div class="grid">{cards_html}</div>
+    </section>"""
+
+
+def generate_today_trivia_html(trivia_articles):
+    """
+    トップページの一番目立つ位置に出す「💡今日のトリビア」。
+    最新1件をピックアップして表示する。
+    """
+    if not trivia_articles:
+        return ""
+
+    latest = trivia_articles[0]
+    slug = latest["slug"]
+
+    return f"""
+    <section id="今日のトリビア">
+        <div class="section-title">💡 今日のトリビア</div>
+        <a class="today-trivia-card" href="trivia/{slug}.html">
+            <div class="today-trivia-img">
+                <img src="trivia/images/{slug}.png" alt="" loading="lazy"
+                     onerror="this.parentElement.style.display='none'">
+            </div>
+            <div class="today-trivia-body">
+                <div class="today-trivia-title">{latest['title']}</div>
+                <div class="today-trivia-summary">{latest['summary']}</div>
+                <div class="today-trivia-more">詳しく読む →</div>
+            </div>
+        </a>
+    </section>"""
+
+
+def generate_html(all_articles, weather=None, trivia_articles=None):
+    trivia_articles = trivia_articles or []
     now = datetime.now().strftime("%Y年%m月%d日 %H:%M")
 
     nav_html = '<a href="#天気">🌤️ 天気</a>'
+    if trivia_articles:
+        nav_html += '<a href="#今日のトリビア">💡 今日のトリビア</a>'
+
     sections_html = f"""
     <section id="天気">
         <div class="section-title">今日の天気</div>
         {generate_weather_html(weather)}
     </section>"""
+
+    # 「💡今日のトリビア」は天気の直後、他のニュースカテゴリより上に表示する
+    sections_html += generate_today_trivia_html(trivia_articles)
 
     for category, articles in all_articles.items():
         nav_html += f'<a href="#{category}">{category}</a>'
@@ -318,16 +419,14 @@ def generate_html(all_articles, weather=None):
             <div class="grid">{cards_html}</div>
         </section>"""
 
+    # 「💡トリビア・雑学」はナビ・本文の最後に独立カテゴリとして追加
+    if trivia_articles:
+        nav_html += f'<a href="#{TRIVIA_CATEGORY_NAME}">💡 トリビア</a>'
+        sections_html += generate_trivia_section_html(trivia_articles)
+
     html = f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-04C0DRMF45"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-04C0DRMF45');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>速見ニュース | HAYAMI NEWS</title>
@@ -395,6 +494,19 @@ def generate_html(all_articles, weather=None):
         .hourly-time {{ color: #888; font-size: 0.68rem; margin-bottom: 4px; }}
         .hourly-icon {{ font-size: 1.4rem; }}
         .loading {{ color: #888; font-size: 0.82rem; text-align: center; padding: 20px; }}
+        /* トリビア・雑学 関連スタイル (追加) */
+        .today-trivia-card {{
+            display: flex; gap: 14px; background: #1e1e1e; border-radius: 10px;
+            border: 1px solid #444; border-top: 2px solid #ffce54; overflow: hidden;
+            text-decoration: none; transition: transform 0.15s;
+        }}
+        .today-trivia-card:hover {{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }}
+        .today-trivia-img {{ width: 140px; min-width: 140px; aspect-ratio: 1/1; background: #2a2a2a; overflow: hidden; }}
+        .today-trivia-img img {{ width: 100%; height: 100%; object-fit: cover; display: block; }}
+        .today-trivia-body {{ padding: 12px 16px 12px 0; display: flex; flex-direction: column; justify-content: center; }}
+        .today-trivia-title {{ color: #f0f0f0; font-size: 0.95rem; font-weight: bold; margin-bottom: 6px; line-height: 1.5; }}
+        .today-trivia-summary {{ color: #bbb; font-size: 0.8rem; line-height: 1.6; margin-bottom: 8px; }}
+        .today-trivia-more {{ color: #ffce54; font-size: 0.76rem; }}
         footer {{ background: #0d0d0d; color: #444; text-align: center; padding: 24px 20px; font-size: 0.8rem; margin-top: 20px; }}
         footer span {{ color: #ff3b5c; }}
     </style>
@@ -514,8 +626,12 @@ def main():
             article['summary_text'] = summarize_article(article)
         all_articles[category] = articles[:3]
 
+    print("トリビア記事一覧を確認中...")
+    trivia_articles = load_trivia_articles()
+    print(f"  トリビア記事: {len(trivia_articles)}件")
+
     print("HTMLを生成中...")
-    generate_html(all_articles, weather)
+    generate_html(all_articles, weather, trivia_articles)
 
     if TWITTER_API_KEY and TWITTER_ACCESS_TOKEN:
         print("Xに投稿中...")
